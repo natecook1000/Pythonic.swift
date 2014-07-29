@@ -455,7 +455,7 @@ assert(sum([1, 2, 3], 1) == 7)
 assert(sum([1.1, 1.2]) == 2.3)
 
 // sys.argv
-if sys.argv && sys.argv[0] == "-i" {
+if len(sys.argv) == 1 && sys.argv[0] == "./Pythonic-test.swift" {
     // Make sure test case passes also when run using shebang line.
     sys.argv = ["./Pythonic-test", "arg1", "arg2"]
 }
