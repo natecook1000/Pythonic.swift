@@ -17,7 +17,7 @@
 //   decode: TODO.
 //   encode: TODO.
 //   endswith: Added.
-//   expandtabs: TODO.
+//   expandtabs: Added.
 //   find: TODO.
 //   format: TODO.
 //   index: TODO.
@@ -310,6 +310,22 @@ extension String : LogicValue {
         let oddShift = length % 2 == 1 ? 0.5 : 0.0 // Python is weird about string centering
         let left = Int((Double(width) + Double(length)) / 2.0 + oddShift)
         return self.ljust(left, fillchar).rjust(width, fillchar)
+    }
+
+    public func expandTabs(tabSize: Int) -> String {
+        return self.replace("\t", " " * tabSize)
+    }
+
+    public func expandTabs() -> String {
+        return self.expandTabs(8)
+    }
+
+    public func expandtabs(tabSize: Int) -> String {
+        return self.expandTabs(tabSize)
+    }
+
+    public func expandtabs() -> String {
+        return self.expandTabs()
     }
 }
 

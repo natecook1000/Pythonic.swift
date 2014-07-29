@@ -330,6 +330,13 @@ assert("foo".count("b") == 0)
 // str.endswith
 assert("foobar".endswith("bar"))
 
+// str.expandtabs
+assert(len("\t".expandtabs()) == 8)
+assert(len("\t".expandtabs(10)) == 10)
+assert(len("\t\t".expandtabs(10)) == 20)
+assert(len(("\t" * 2).expandtabs()) == 16)
+assert("\t".expandtabs() == " " * 8)
+
 // str.isalnum
 assert(!"foo ".isalnum())
 assert("foo1".isalnum())
