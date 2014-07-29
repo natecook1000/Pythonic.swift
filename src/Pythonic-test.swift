@@ -580,6 +580,16 @@ if performPythonIncompatibleTests {
     assert(["foo": "bar"])
     assert(len(dict<str, str>()) == 0)
 
+    // divmod
+    assert(divmod(100, 9).0 == 11)
+    assert(divmod(100, 9).1 == 1)
+    assert(divmod(101.0, 8.0).0 == 12.0)
+    assert(divmod(101.0, 8.0).1 == 5.0)
+    assert(divmod(102.0, 7).0 == 14.0)
+    assert(divmod(102.0, 7).1 == 4.0)
+    assert(divmod(103, 6.0).0 == 17.0)
+    assert(divmod(103, 6.0).1 == 1.0)
+
     // double.isInteger
     var d1 = 1.0
     var d2 = 1.1

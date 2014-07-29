@@ -1,31 +1,26 @@
 // >>> filter(lambda s: re.match("^[a-z]", s), dir(__builtins__))
-//   abs
-//   all
-//   any
+//   abs: Already in Swift.
+//   all: Added.
+//   any: Added.
 //   apply
-//   basestring
 //   bin
-//   bool
+//   bool: Added.
 //   buffer
 //   bytearray
 //   bytes
 //   callable
-//   chr
+//   chr: Added.
 //   classmethod
-//   cmp
+//   cmp: Added.
 //   coerce
 //   compile
 //   complex
-//   copyright
-//   credits
 //   delattr
-//   dict
-//   dir
-//   divmod
-//   enumerate
+//   dict: Added.
+//   divmod: Added.
+//   enumerate: Already in Swift.
 //   eval
 //   execfile
-//   exit
 //   file
 //   filter
 //   float
@@ -35,8 +30,7 @@
 //   globals
 //   hasattr
 //   hash
-//   help
-//   hex
+//   hex: Added.
 //   id
 //   input
 //   int
@@ -44,38 +38,35 @@
 //   isinstance
 //   issubclass
 //   iter
-//   len
-//   license
+//   len: Added.
 //   list
 //   locals
 //   long
 //   map
-//   max
+//   max: Added.
 //   memoryview
-//   min
+//   min: Added.
 //   next
 //   object
-//   oct
-//   open
-//   ord
+//   oct: Added.
+//   open: Added.
+//   ord: Added.
 //   pow
 //   print
 //   property
-//   quit
-//   range
-//   raw_input
+//   range: Added.
+//   raw_input: Added.
 //   reduce
-//   reload
 //   repr
 //   reversed
-//   round
-//   set
+//   round: Added.
+//   set: Added.
 //   setattr
 //   slice
 //   sorted
 //   staticmethod
-//   str
-//   sum
+//   str: Added.
+//   sum: Added.
 //   super
 //   tuple
 //   type
@@ -83,7 +74,7 @@
 //   unicode
 //   vars
 //   xrange
-//   zip
+//   zip: Added.
 
 @exported import Foundation
 
@@ -125,6 +116,18 @@ public func cmp<T : Comparable>(x: T, y: T) -> Int {
         return 1
     }
     return 0
+}
+
+public func divmod(x: Double, y: Double) -> (Double, Double) {
+    var l = (x - x % y) / y
+    var r = x % y
+    return (l, r)
+}
+
+public func divmod(x: Int, y: Int) -> (Int, Int) {
+    var l = (x - x % y) / y
+    var r = x % y
+    return (l, r)
 }
 
 public func hex(i: Int) -> String {
