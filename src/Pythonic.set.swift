@@ -39,12 +39,8 @@ public class Set<T: Hashable> : ArrayLiteralConvertible, Swift.Collection,
     public init() {
     }
 
-    public init(_ initialArray: [T]) {
-        self.extend(initialArray)
-    }
-
-    public init(_ initialSet: Set<T>) {
-        self.extend(initialSet)
+    public init<R : Sequence where R.GeneratorType.Element == T>(_ initialSequence: R) {
+        self.extend(initialSequence)
     }
 
     public func contains(element: T) -> Bool {
