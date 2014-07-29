@@ -92,6 +92,16 @@ extension String : LogicValue {
         return self.stringByReplacingOccurrencesOfString(replaceOldString, withString: withString)
     }
 
+    public func split() -> [String] {
+        var r: [String] = []
+        for s in self.splitlines() {
+            if s.strip() != "" {
+                r += s
+            }
+        }
+        return r
+    }
+
     // TODO: More arguments. string.split(s[, sep[, maxsplit]])¶
     public func split(sep: String) -> [String] {
         return self.componentsSeparatedByString(sep)

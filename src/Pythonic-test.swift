@@ -393,6 +393,8 @@ assert(" \n\t foobar \n\t ".rstrip() == " \n\t foobar")
 // str.split
 assert("foo:bar:baz".split(":") == ["foo", "bar", "baz"])
 assert("foo bar".split(" ") == ["foo", "bar"])
+assert("foo\r\nbar\rfoo\nfoo\n\nfoo\n\n\nfoo".split() == ["foo", "bar", "foo", "foo", "foo", "foo"])
+assert("foo\r\n \r\nbar\rfoo\nfoo\n\nfoo\n\n\nfoo".split() == ["foo", "bar", "foo", "foo", "foo", "foo"])
 
 // str.splitlines
 assert("foo\naw\tef\roa\r\nwef".splitlines() == ["foo", "aw\tef", "oa", "wef"])
