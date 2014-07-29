@@ -168,16 +168,19 @@ public func oct(i: Int) -> String {
 
 public func open(name: String, _ mode: String = "") -> NSFileHandle {
     // TODO: Not all modes are implemented.
+    var fh: NSFileHandle!
     switch mode {
         case "r":
-            return NSFileHandle(forReadingAtPath: name)
+            fh = NSFileHandle(forReadingAtPath: name)
         case "w":
-            return NSFileHandle(forWritingAtPath: name)
+            fh = NSFileHandle(forWritingAtPath: name)
         case "a":
-            return NSFileHandle(forUpdatingAtPath: name)
+            fh = NSFileHandle(forUpdatingAtPath: name)
         default:
-            return NSFileHandle(forReadingAtPath: name)
+            fh = NSFileHandle(forReadingAtPath: name)
     }
+    assert(fh, "open(…) -> NSFileHandle failed.")
+    return fh
 }
 
 public func ord(c: Character) -> Int {
