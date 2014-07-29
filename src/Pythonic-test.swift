@@ -167,6 +167,9 @@ assert(oct(100) == "0144")
 assert(oct(1000) == "01750")
 // assert(oct(100000000000) == "01351035564000") – assertion fails
 
+// open
+assert(open("Pythonic-test.txt").read().splitlines()[2] == "This test file is being read")
+
 // ord
 assert(ord("a") == 97)
 assert(ord(chr(98)) == 98)

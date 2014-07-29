@@ -1,0 +1,8 @@
+============================
+
+This test file is being read
+from the Pythonic.swift test
+suite. It is being read from
+both Swift and Python. Okay!
+
+============================
