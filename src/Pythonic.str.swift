@@ -18,9 +18,9 @@
 //   encode: TODO.
 //   endswith: Added.
 //   expandtabs: Added.
-//   find: TODO.
+//   find: Added.
 //   format: TODO.
-//   index: TODO.
+//   index: Added.
 //   isalnum: Added.
 //   isalpha: Added.
 //   isdigit: Added.
@@ -326,6 +326,21 @@ extension String : LogicValue {
 
     public func expandtabs() -> String {
         return self.expandTabs()
+    }
+
+    public func find(sub: String, _ start: Int? = nil, _ end: Int? = nil) -> Int {
+        var s = self
+        for i in 0..<(len(s) - len(sub) + 1) {
+            var part = s[i..<i + len(sub)]
+            if part == sub {
+                return i
+            }
+        }
+        return -1
+    }
+
+    public func index(sub: String, start: Int? = nil, end: Int? = nil) -> Int {
+        return self.find(sub, start, end)
     }
 }
 
