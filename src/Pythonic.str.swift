@@ -330,6 +330,9 @@ extension String : LogicValue {
 
     public func find(sub: String, _ start: Int? = nil, _ end: Int? = nil) -> Int {
         var s = self
+        if len(s) - len(sub) + 1 < 0 {
+            return -1
+        }
         for i in 0..<(len(s) - len(sub) + 1) {
             var part = s[i..<i + len(sub)]
             if part == sub {

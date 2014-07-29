@@ -338,11 +338,12 @@ assert(len(("\t" * 2).expandtabs()) == 16)
 assert("\t".expandtabs() == " " * 8)
 
 // str.find
+assert("foo".find("foobarfoobar") == -1)
+assert("foobar".find("") == 0)
+assert("foobar".find("bar") == 3)
+assert("foobar".find("f") == 0)
 assert("foobar".find("foobar") == 0)
 assert("foobar".find("foobars") == -1)
-assert("foobar".find("") == 0)
-assert("foobar".find("f") == 0)
-assert("foobar".find("bar") == 3)
 assert("foobar".find("zbar") == -1)
 
 // str.index
