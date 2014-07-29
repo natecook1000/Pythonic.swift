@@ -449,6 +449,13 @@ assert("foo bar".title() == "Foo Bar")
 // str.upper
 assert("FooBar".upper() == "FOOBAR")
 
+// str.zfill
+assert("foo".zfill(-1) == "foo")
+assert("foo".zfill(0) == "foo")
+assert("foo".zfill(1) == "foo")
+assert("foo".zfill(10) == "0000000foo")
+assert(len("foo".zfill(1000)) == 1000)
+
 // sum
 assert(sum([1, 2, 3]) == 6)
 assert(sum([1, 2, 3], 1) == 7)

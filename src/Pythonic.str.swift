@@ -48,7 +48,7 @@
 //   title: Added.
 //   translate: TODO.
 //   upper: Added.
-//   zfill: TODO.
+//   zfill: Added.
 
 import Foundation
 
@@ -344,6 +344,10 @@ extension String : LogicValue {
 
     public func index(sub: String, start: Int? = nil, end: Int? = nil) -> Int {
         return self.find(sub, start, end)
+    }
+
+    public func zfill(length: Int) -> String {
+        return "0" * (length - len(self)) + self
     }
 }
 
