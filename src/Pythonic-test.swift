@@ -394,10 +394,12 @@ assert("foobar".rjust(4) == "foobar")
 assert(" \n\t foobar \n\t ".rstrip() == " \n\t foobar")
 
 // str.split
-assert("foo:bar:baz".split(":") == ["foo", "bar", "baz"])
+assert("a\t\n\r\t\n\t\n\r\nb\r\nc\t".split() == ["a", "b", "c"])
 assert("foo bar".split(" ") == ["foo", "bar"])
-assert("foo\r\nbar\rfoo\nfoo\n\nfoo\n\n\nfoo".split() == ["foo", "bar", "foo", "foo", "foo", "foo"])
+assert("foo:bar:baz".split(":") == ["foo", "bar", "baz"])
 assert("foo\r\n \r\nbar\rfoo\nfoo\n\nfoo\n\n\nfoo".split() == ["foo", "bar", "foo", "foo", "foo", "foo"])
+assert("foo\r\nbar\rfoo\nfoo\n\nfoo\n\n\nfoo".split() == ["foo", "bar", "foo", "foo", "foo", "foo"])
+assert(len(open("Pythonic-test.txt").read().split()) == 23)
 
 // str.splitlines
 assert("foo\naw\tef\roa\r\nwef".splitlines() == ["foo", "aw\tef", "oa", "wef"])

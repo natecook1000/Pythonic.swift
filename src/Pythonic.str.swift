@@ -93,13 +93,13 @@ extension String : LogicValue {
     }
 
     public func split() -> [String] {
-        var r: [String] = []
-        for s in self.splitlines() {
-            if s.strip() != "" {
-                r += s
+        var strings: [String] = []
+        for s in re.split(WHITESPACE_REGEXP, self) {
+            if s {
+                strings += s
             }
         }
-        return r
+        return strings
     }
 
     // TODO: More arguments. string.split(s[, sep[, maxsplit]])¶
