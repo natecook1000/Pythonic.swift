@@ -82,6 +82,9 @@ assert(hex(10000000) == "0x989680")
 assert(int(1.1) == 1)
 assert(int(9.9) == 9)
 
+// json
+assert(json.dumps([1, 2, 3]).replace("\n", "").replace(" ", "") == "[1,2,3]")
+
 // len
 assert(len("") == 0)
 assert(len("\t") == 1)
