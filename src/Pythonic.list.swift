@@ -36,9 +36,7 @@ extension Array : LogicValue {
     mutating public func reverseInPlace() {
         var newArrayElements = Array(self.reverse())
         self.clear()
-        for element in newArrayElements {
-            self.append(element)
-        }
+        self.extend(newArrayElements)
     }
 
     public func count<T where T : Equatable>(element: T) -> Int {
