@@ -10,7 +10,7 @@
 // >>> filter(lambda s: not s.startswith("_"), dir({}))
 //   clear: Implemented.
 //   copy
-//   fromkeys
+//   fromkeys: Implemented (in Pythonic-test.swift to avoid compiler bug).
 //   get: Implemented (in Pythonic-test.swift to avoid compiler bug).
 //   has_key: Implemented as hasKey (in Pythonic-test.swift to avoid compiler bug).
 //   items: Implemented (in Pythonic-test.swift to avoid compiler bug).

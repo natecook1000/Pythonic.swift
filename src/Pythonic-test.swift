@@ -560,6 +560,18 @@ extension Dictionary {
     public func items() -> [(KeyType, ValueType)] {
         return zip(self.keys, self.values)
     }
+
+    public static func fromKeys(sequence: [KeyType], _ defaultValue: ValueType) -> [KeyType : ValueType]{
+        var dict = [KeyType : ValueType]()
+        for key in sequence {
+            dict[key] = defaultValue
+        }
+        return dict
+    }
+
+    public static func fromkeys(sequence: [KeyType], _ defaultValue: ValueType) -> [KeyType : ValueType] {
+        return fromKeys(sequence, defaultValue)
+    }
 }
 
 // BUG: has_attr does not work due to the following compiler bug (?)
@@ -584,6 +596,9 @@ if performPythonIncompatibleTests {
     assert(!dict<str, str>())
     assert(["foo": "bar"])
     assert(len(dict<str, str>()) == 0)
+
+    // dict.fromkeys
+    assert(dict.fromkeys(["a", "b", "c"], 1) == ["a": 1, "c": 1, "b": 1])
 
     // dict.items
     var h = ["foo": 1, "bar": 2, "zonk": 3]
