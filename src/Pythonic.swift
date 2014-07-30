@@ -39,7 +39,7 @@
 //   issubclass
 //   iter
 //   len: Added.
-//   list
+//   list: Added.
 //   locals
 //   long
 //   map
@@ -51,7 +51,7 @@
 //   oct: Added.
 //   open: Added.
 //   ord: Added.
-//   pow
+//   pow: Added.
 //   print
 //   property
 //   range: Added.
@@ -192,6 +192,10 @@ public func ord(c: Character) -> Int {
 
 public func ord(s: String) -> Int {
     return Int((s as NSString).characterAtIndex(0))
+}
+
+public func pow(x: Int, y: Int) -> Int {
+    return Int(math.pow(Double(x), Double(y)))
 }
 
 public func range(stop: Int) -> [Int] {

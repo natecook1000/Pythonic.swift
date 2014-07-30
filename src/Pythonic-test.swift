@@ -129,6 +129,7 @@ assert(math.factorial(20) == 2432902008176640000)
 
 // math.pow
 assert(math.pow(2, 2) == 4)
+assert(math.pow(2.0, 2.0) == 4.0)
 
 // math.radians
 assert(math.radians(270) == math.pi * 1.5)
@@ -181,6 +182,10 @@ assert(os.getcwd())
 assert(!os.path.exists("/tmp.foo/"))
 assert(os.path.exists("/tmp/"))
 assert(os.path.exists("Pythonic-test.txt"))
+
+// pow
+assert(pow(2, 2) == 4)
+assert(pow(2.0, 2.0) == 4.0)
 
 // random.random
 assert(random.random() < 1)
