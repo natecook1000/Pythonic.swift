@@ -180,6 +180,7 @@ assert(os.getcwd())
 // os.path.exists
 assert(!os.path.exists("/tmp.foo/"))
 assert(os.path.exists("/tmp/"))
+assert(os.path.exists("Pythonic-test.txt"))
 
 // random.random
 assert(random.random() < 1)
