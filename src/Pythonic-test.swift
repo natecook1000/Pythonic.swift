@@ -483,16 +483,20 @@ assert(sys.platform == "darwin")
 // time.time
 assert(time.time() > 1405028001.224846)
 
-// uuid
-assert(len(uuid.uuid4().hex) == 32)
-
-// Comparison of 2-part tuples
+// tuple – comparison of 2-part tuples
 assert((1, 1) == (1, 1))
 assert(!((1, 1) == (1, 214)))
 
-// Comparison of 3-part tuples
+// tuple – comparison of 3-part tuples
 assert((1, 1, 1) == (1, 1, 1))
 assert(!((1, 1, 1) == (1, 1, 214)))
+
+// uuid
+assert(len(uuid.uuid4().hex) == 32)
+
+// xrange
+assert(list(xrange(10)) == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+assert(list(xrange(1, 10)) == [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 // Others:
 assert(" ")

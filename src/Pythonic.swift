@@ -209,6 +209,17 @@ public func range(start: Int, stop: Int, _ step: Int = 1) -> [Int] {
     return Array(stride(from: start, to: stop, by: step))
 }
 
+public func xrange(stop: Int) -> StrideTo<Int> {
+    return xrange(0, stop)
+}
+
+public func xrange(start: Int, stop: Int, _ step: Int = 1) -> StrideTo<Int> {
+    if step <= 0 || start > stop {
+        return stride(from: 0, to: 0, by: 1)
+    }
+    return stride(from: start, to: stop, by: step)
+}
+
 public func raw_input(prompt: String) -> String {
     return rawInput(prompt)
 }
