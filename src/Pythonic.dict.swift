@@ -17,12 +17,12 @@
 //   iteritems
 //   iterkeys
 //   itervalues
-//   keys
+//   keys: Already in Swift (instance variable, not method).
 //   pop: Implemented (in Pythonic-test.swift to avoid compiler bug).
 //   popitem: Implemented (in Pythonic-test.swift to avoid compiler bug).
 //   setdefault
 //   update
-//   values
+//   values: Already in Swift (instance variable, not method).
 //   viewitems
 //   viewkeys
 //   viewvalues
@@ -35,13 +35,14 @@ extension Dictionary : LogicValue {
     public func getLogicValue() -> Bool {
         return len(self) != 0
     }
-
-    mutating public func clear() {
-        self.removeAll()
-    }
-
     // NOTE: get(…) implemented directly in Pythonic-test.swift to work around compiler bug.
     // NOTE: hasKey(…) implemented directly in Pythonic-test.swift to work around compiler bug.
     // NOTE: pop(…) implemented directly in Pythonic-test.swift to work around compiler bug.
     // NOTE: popItem(…) implemented directly in Pythonic-test.swift to work around compiler bug.
+}
+
+extension Dictionary {
+    mutating public func clear() {
+        self.removeAll()
+    }
 }

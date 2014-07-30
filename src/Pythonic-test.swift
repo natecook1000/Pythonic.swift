@@ -520,22 +520,22 @@ extension Array {
 
 // BUG: Due to a strange compiler bug (?) the following cannot be imported. Must be in same source file.
 extension Dictionary {
-    func get(key: KeyType) -> ValueType? {
+    public func get(key: KeyType) -> ValueType? {
         return self[key]
     }
 
-    func hasKey(key: KeyType) -> Bool {
+    public func hasKey(key: KeyType) -> Bool {
         if let _ = self.get(key) {
             return true
         }
         return false
     }
 
-    func has_key(key: KeyType) -> Bool {
+    public func has_key(key: KeyType) -> Bool {
         return hasKey(key)
     }
 
-    mutating func pop(key: KeyType) -> ValueType? {
+    mutating public func pop(key: KeyType) -> ValueType? {
         if let val = self.get(key) {
             self.removeValueForKey(key)
             return val
@@ -543,7 +543,7 @@ extension Dictionary {
         return nil
     }
 
-    mutating func popItem() -> (KeyType, ValueType)? {
+    mutating public func popItem() -> (KeyType, ValueType)? {
         if self.count == 0 {
             return nil
         }
@@ -552,7 +552,7 @@ extension Dictionary {
         return (key, value)
     }
 
-    mutating func popitem() -> (KeyType, ValueType)? {
+    mutating public func popitem() -> (KeyType, ValueType)? {
         return popItem()
     }
 }
