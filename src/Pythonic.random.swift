@@ -60,10 +60,7 @@ public class random {
     }
 
     public class func choice<R : Sequence where R.GeneratorType.Element : Comparable>(sequence: R) -> R.GeneratorType.Element {
-        var tmpArr: [R.GeneratorType.Element] = []
-        for element in sequence {
-            tmpArr.append(element)
-        }
-        return tmpArr[Pythonic.random.randRange(0, len(tmpArr))]
+        var arr = Array(sequence)
+        return arr[Pythonic.random.randRange(0, len(arr))]
     }
 }

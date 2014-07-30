@@ -199,17 +199,10 @@ public func range(stop: Int) -> [Int] {
 }
 
 public func range(start: Int, stop: Int, _ step: Int = 1) -> [Int] {
-    var intArray = [Int]()
-    if step <= 0 {
-        return intArray
+    if step <= 0 || start > stop {
+        return [Int]()
     }
-    if start > stop {
-        return intArray
-    }
-    for i in stride(from: start, to: stop, by: step) {
-        intArray += i
-    }
-    return intArray
+    return Array(stride(from: start, to: stop, by: step))
 }
 
 public func raw_input(prompt: String) -> String {
@@ -263,11 +256,7 @@ public func sum(iterable: [Int], _ start: Int = 0) -> Int {
 }
 
 public func zip<S1 : Sequence, S2 : Sequence>(s1: S1, s2: S2) -> [(S1.GeneratorType.Element, S2.GeneratorType.Element)] {
-    var retArray: [(S1.GeneratorType.Element, S2.GeneratorType.Element)] = []
-    for tuple in Swift.Zip2<S1, S2>(s1, s2) {
-        retArray += tuple
-    }
-    return retArray
+    return Array(Swift.Zip2<S1, S2>(s1, s2))
 }
 
 public typealias bool = Swift.Bool
