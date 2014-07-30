@@ -13,7 +13,7 @@
 //   fromkeys
 //   get: Implemented (in Pythonic-test.swift to avoid compiler bug).
 //   has_key: Implemented as hasKey (in Pythonic-test.swift to avoid compiler bug).
-//   items
+//   items: Implemented (in Pythonic-test.swift to avoid compiler bug).
 //   iteritems
 //   iterkeys
 //   itervalues
@@ -37,6 +37,7 @@ extension Dictionary : LogicValue {
     }
     // NOTE: get(…) implemented directly in Pythonic-test.swift to work around compiler bug.
     // NOTE: hasKey(…) implemented directly in Pythonic-test.swift to work around compiler bug.
+    // NOTE: items() implemented directly in Pythonic-test.swift to work around compiler bug.
     // NOTE: pop(…) implemented directly in Pythonic-test.swift to work around compiler bug.
     // NOTE: popItem(…) implemented directly in Pythonic-test.swift to work around compiler bug.
 }

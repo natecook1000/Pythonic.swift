@@ -555,6 +555,10 @@ extension Dictionary {
     mutating public func popitem() -> (KeyType, ValueType)? {
         return popItem()
     }
+
+    public func items() -> [(KeyType, ValueType)] {
+        return zip(self.keys, self.values)
+    }
 }
 
 // BUG: has_attr does not work due to the following compiler bug (?)
@@ -580,6 +584,13 @@ if performPythonIncompatibleTests {
     assert(["foo": "bar"])
     assert(len(dict<str, str>()) == 0)
 
+    // dict.items
+    var h = ["foo": 1, "bar": 2, "zonk": 3]
+    var arrayOfTuples = h.items()
+    assert(arrayOfTuples[0].0 == "foo" && arrayOfTuples[0].1 == 1)
+    assert(arrayOfTuples[1].0 == "bar" && arrayOfTuples[1].1 == 2)
+    assert(arrayOfTuples[2].0 == "zonk" && arrayOfTuples[2].1 == 3)
+
     // divmod
     assert(divmod(100, 9).0 == 11)
     assert(divmod(100, 9).1 == 1)
@@ -596,6 +607,10 @@ if performPythonIncompatibleTests {
     assert(d1.isInteger())
     assert(!d2.isInteger())
 
+    // float.isInteger
+    assert(float(1.0).isInteger())
+    assert(!float(1.1).isInteger())
+
     // hasattr (commented out due to compiler bug)
     // class Baz {
     //     var foo = "foobar"
@@ -605,13 +620,10 @@ if performPythonIncompatibleTests {
     // assert(hasattr(baz, "foo"))
     // assert(hasattr(baz, "baz") == false)
 
-    // float.isInteger
-    assert(float(1.0).isInteger())
-    assert(!float(1.1).isInteger())
-
     // list
     assert(!list<int>())
 
+    // list.count + list.index + list.reverseInPlace
     var arr: [String] = ["foo", "bar", "zonk", "foo"]
     assert(arr.count("foo") == 2)
     arr.remove("foo")
