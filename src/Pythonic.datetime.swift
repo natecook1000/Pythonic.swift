@@ -52,7 +52,7 @@
 
 import Foundation
 
-typealias datetime = NSDate
+public typealias datetime = NSDate
 
 extension NSDate {
     class func utcnow() -> NSDate {
