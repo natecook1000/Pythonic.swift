@@ -51,6 +51,11 @@ assert(cmp(0, 1) == -1)
 assert(cmp(1, 0) == 1)
 // assert(cmp([1, 2, 3, 100], [2, 3, 4, 5]) == -1) – assertion fails
 
+// double (truthness)
+assert(0.00000001)
+assert(1.0)
+assert(!bool(0.0))
+
 // double.is_integer/isInteger
 assert(!0.000000000001.is_integer())
 assert(!1.1.is_integer())
@@ -82,6 +87,10 @@ assert(hex(10000000) == "0x989680")
 assert(int(1.1) == 1)
 assert(int(9.9) == 9)
 
+// int (truthness)
+assert(1)
+assert(!bool(0))
+
 // json
 assert(json.dumps([1, 2, 3]).replace("\n", "").replace(" ", "") == "[1,2,3]")
 
@@ -96,6 +105,11 @@ assert(len(["foo"]) == 1)
 // list
 assert(list([1, 2, 3]) == [1, 2, 3])
 assert(list([1, 2, 3]).count(1) == 1)
+
+// list (truthness)
+assert([1, 2, 3])
+assert([1, 2])
+assert([1])
 
 // list.count
 assert([1, 2, 2, 3, 3, 3].count(1) == 1)
@@ -291,8 +305,18 @@ assert(set([1]))
 assert(!set([1, 2, 3]).isdisjoint(set([3, 4, 5])))
 assert(set([1, 2, 3]).isdisjoint(set([4, 8, 16])))
 
-// str
+// str (conversion)
 assert(str(123) == "123")
+assert(str(1.23) == "1.23")
+
+// str (indexing)
+assert("foobar"[0] == "f")
+assert("\r\t"[0] == "\r")
+assert("\r\t"[1] == "\t")
+
+// str (truthness)
+assert(" ")
+assert(!bool(""))
 
 // str (positive and negative indexing)
 assert("foo"[-1] == "o")
@@ -501,19 +525,6 @@ assert(len(uuid.uuid4().hex) == 32)
 assert(list(xrange(10)) == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 assert(list(xrange(1, 10)) == [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-// Others:
-assert(" ")
-assert("foobar"[0] == "f")
-assert(0.00000001)
-assert(1)
-assert(1.0)
-assert([1, 2, 3])
-assert([1, 2])
-assert([1])
-assert(!bool(""))
-assert(!bool(0))
-assert(!bool(0.0))
-
 // BUG: Due to a strange compiler bug (?) the following cannot be imported. Must be in same source file.
 extension Array {
     mutating func pop(index: Int?) -> Array.Element? {
@@ -604,6 +615,10 @@ extension Dictionary {
 
 let performPythonIncompatibleTests = true
 if performPythonIncompatibleTests {
+    // Handling of "\r\n" not compatible with Python.
+    assert("\r\n\t"[0] == "\r\n")
+    assert("\r\n\t"[1] == "\t")
+
     // dict
     assert(!dict<str, str>())
     assert(["foo": "bar"])
