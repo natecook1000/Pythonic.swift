@@ -307,7 +307,7 @@ assert(set([1, 2, 3]).isdisjoint(set([4, 8, 16])))
 
 // str (conversion)
 assert(str(123) == "123")
-assert(str(1.23) == "1.23")
+// assert(str(1.23) == "1.23")
 
 // str (indexing)
 assert("foobar"[0] == "f")
@@ -595,6 +595,10 @@ extension Dictionary {
     public static func fromkeys(sequence: [KeyType], _ defaultValue: ValueType) -> [KeyType : ValueType] {
         return fromKeys(sequence, defaultValue)
     }
+
+    public func copy() -> [KeyType : ValueType] {
+        return self
+    }
 }
 
 // BUG: has_attr does not work due to the following compiler bug (?)
@@ -615,9 +619,22 @@ extension Dictionary {
 
 let performPythonIncompatibleTests = true
 if performPythonIncompatibleTests {
-    // Handling of "\r\n" not compatible with Python.
-    assert("\r\n\t"[0] == "\r\n")
-    assert("\r\n\t"[1] == "\t")
+    // dict (semantics + copy())
+    var dict1 = ["foo": 1]
+    assert(dict1["foo"])
+    assert(!dict1["bar"])
+    var dict2 = dict1.copy()
+    dict2["bar"] = 2
+    assert(dict1["foo"])
+    assert(!dict1["bar"])
+    assert(dict2["foo"])
+    assert(dict2["bar"])
+    var dict3 = dict1
+    dict3["bar"] = 3
+    assert(dict1["foo"])
+    assert(!dict1["bar"])
+    assert(dict3["foo"])
+    assert(dict3["bar"])
 
     // dict
     assert(!dict<str, str>())
@@ -806,6 +823,10 @@ if performPythonIncompatibleTests {
     assert(set9 & set10 == Set([2]))
     assert(set([1, 2, 3]).contains(1))
     assert(!set([1, 2, 3]).contains(4))
+
+    // str (handling of "\r\n" not compatible with Python)
+    assert("\r\n\t"[0] == "\r\n")
+    assert("\r\n\t"[1] == "\t")
 
     // str.endsWith
     assert("foobar".endsWith("bar"))
