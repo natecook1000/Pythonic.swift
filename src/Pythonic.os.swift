@@ -182,4 +182,12 @@ public class os {
     public class func getcwd() -> String {
         return NSFileManager.defaultManager().currentDirectoryPath
     }
+
+    public class func remove(path: String) {
+        return os.unlink(path)
+    }
+
+    public class func unlink(path: String) {
+        NSFileManager.defaultManager().removeItemAtPath(path, error: nil)
+    }
 }
