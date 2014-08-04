@@ -36,9 +36,6 @@ public class HttpSession {
         // TODO: Handle all options.
         var nsUrl = NSURL(string: url)
         var nsMutableUrlRequest = NSMutableURLRequest(URL: nsUrl, cachePolicy: .ReloadIgnoringLocalCacheData, timeoutInterval: timeout!)
-        if let timeoutValue = timeout {
-            nsMutableUrlRequest.timeoutInterval = timeoutValue
-        }
         switch (methodType) {
             case .GET:
                 nsMutableUrlRequest.HTTPMethod = "GET"
