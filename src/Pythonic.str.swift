@@ -349,6 +349,12 @@ extension String : LogicValue {
     public func zfill(length: Int) -> String {
         return "0" * (length - len(self)) + self
     }
+
+    // Python: if "foo" in "foobar": …
+    // Pythonic.swift: if "foo".in(foobar) { … }
+    public func `in`(s: String) -> Bool {
+        return s.find(self) != -1
+    }
 }
 
 @infix public func *(lhs: Int, rhs: String) -> String {

@@ -831,6 +831,11 @@ if performPythonIncompatibleTests {
     // str.endsWith
     assert("foobar".endsWith("bar"))
 
+    // str.in
+    assert("foo".`in`("foobar"))
+    assert(!"foo".`in`("zonk"))
+    assert("ob".`in`("foobar"))
+
     // str.index
     assert("foobar".index("foobars") == -1)
     assert("foobar".index("zbar") == -1)
