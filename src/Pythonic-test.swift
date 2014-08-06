@@ -757,6 +757,28 @@ if performPythonIncompatibleTests {
     assert(len(mapObj) == 0)
     assert(!mapObj["foobar"])
 
+    // open(…) [modes: w, a, r (default)] + fh.write + fh.close + os.path.exists
+    let temporaryTestFile = "/tmp/pythonic-io.txt"
+    var f = open(temporaryTestFile, "w")
+    assert(f)
+    f.write("foo")
+    f.close()
+    f = open(temporaryTestFile, "a")
+    assert(f)
+    f.write("bar\n")
+    f.close()
+    f = open(temporaryTestFile)
+    var foundText = false
+    for line in f {
+        if line == "foobar" {
+            foundText = true
+        }
+    }
+    assert(foundText)
+    assert(os.path.exists(temporaryTestFile))
+    os.unlink(temporaryTestFile)
+    assert(!os.path.exists(temporaryTestFile))
+
     // os.popen3
     var (stdin, stdout, stderr) = os.popen3("/bin/echo foo")
     var foundOutput = false
