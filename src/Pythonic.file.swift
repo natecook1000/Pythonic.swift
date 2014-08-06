@@ -55,6 +55,11 @@ public extension NSFileHandle {
     public func close() {
         self.closeFile()
     }
+
+    public func write(s: String) {
+        self.writeData(s.dataUsingEncoding(NSUTF8StringEncoding))
+        self.synchronizeFile()
+    }
 }
 
 extension NSFileHandle : Sequence {
