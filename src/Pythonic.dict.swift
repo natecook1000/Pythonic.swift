@@ -42,7 +42,7 @@ extension Dictionary : LogicValue {
     // NOTE: popItem(…) implemented directly in Pythonic-test.swift to work around compiler bug.
 }
 
-extension Dictionary {
+public extension Dictionary {
     mutating public func clear() {
         self.removeAll()
     }

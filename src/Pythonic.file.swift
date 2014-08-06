@@ -38,7 +38,7 @@ import Foundation
 
 public typealias file = NSFileHandle
 
-extension NSFileHandle {
+public extension NSFileHandle {
     public func read() -> String {
         let data: NSData = self.readDataToEndOfFile()
         return NSString(data: data, encoding: NSUTF8StringEncoding) as String
@@ -58,7 +58,6 @@ extension NSFileHandle {
 }
 
 extension NSFileHandle : Sequence {
-
     public func availableText () -> String? {
         let data: NSData = self.availableData
         if data.length == 0 {

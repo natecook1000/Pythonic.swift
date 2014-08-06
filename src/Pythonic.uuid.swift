@@ -6,7 +6,7 @@ public class uuid {
     }
 }
 
-extension NSUUID {
+public extension NSUUID {
     public var hex: String {
         return self.UUIDString.lower().replace("-", "")
     }

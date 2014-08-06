@@ -532,8 +532,8 @@ assert(list(xrange(10)) == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 assert(list(xrange(1, 10)) == [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 // BUG: Due to a strange compiler bug (?) the following cannot be imported. Must be in same source file.
-extension Array {
-    mutating func pop(index: Int?) -> Array.Element? {
+public extension Array {
+    public mutating func pop(index: Int?) -> Array.Element? {
         var i = index ? index! : self.count - 1
         if self.count == 0 || i < 0 || i >= self.count {
             return nil
@@ -543,13 +543,13 @@ extension Array {
         return ret
     }
 
-    mutating func pop() -> Array.Element? {
+    public mutating func pop() -> Array.Element? {
         return self.pop(nil)
     }
 }
 
 // BUG: Due to a strange compiler bug (?) the following cannot be imported. Must be in same source file.
-extension Dictionary {
+public extension Dictionary {
     public func get(key: KeyType) -> ValueType? {
         return self[key]
     }

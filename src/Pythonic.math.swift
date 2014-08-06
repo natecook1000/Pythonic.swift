@@ -67,8 +67,12 @@ public protocol FloatArithmetic : FloatLiteralConvertible {
     init(_ value: Double)
     init(_ value: Float)
 }
-extension Float : FloatArithmetic { }
-extension Double : FloatArithmetic { }
+
+extension Float : FloatArithmetic {
+}
+
+extension Double : FloatArithmetic {
+}
 
 public class math {
     public class var e: Double { return 2.718281828459045 }

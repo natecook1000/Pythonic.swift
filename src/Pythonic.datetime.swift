@@ -54,8 +54,8 @@ import Foundation
 
 public typealias datetime = NSDate
 
-extension NSDate {
-    class func utcnow() -> NSDate {
+public extension NSDate {
+    public class func utcnow() -> NSDate {
         return NSDate()
     }
 }
