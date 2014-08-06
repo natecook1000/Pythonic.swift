@@ -149,7 +149,7 @@
 //   sys
 //   sysconf
 //   sysconf_names
-//   system: TODO (frequently used).
+//   system: Added.
 //   tcgetpgrp
 //   tcsetpgrp
 //   tempnam
@@ -189,5 +189,28 @@ public class os {
 
     public class func unlink(path: String) {
         NSFileManager.defaultManager().removeItemAtPath(path, error: nil)
+    }
+
+    public class func system(command: String) -> Int {
+        var parts = command.split(" ")
+        if len(parts) == 0 {
+            return 0
+        }
+        let task = NSTask()
+        // TODO: Use .pop() when no longer have to work around compiler bug.
+        task.launchPath = parts[0]
+        if len(parts) >= 2 {
+            var arguments: [String] = []
+            for i in 1..<len(parts) {
+                arguments.append(parts[i])
+            }
+            task.arguments = arguments
+        }
+        let pipe = NSPipe()
+        task.standardOutput = pipe
+        task.launch()
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        // TODO: Return exit code.
+        return 0
     }
 }

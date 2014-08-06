@@ -200,6 +200,12 @@ assert(!os.path.exists("/tmp.foo/"))
 assert(os.path.exists("/tmp/"))
 assert(os.path.exists("Pythonic-test.txt"))
 
+// os.system (+ os.unlink + os.path.exists)
+os.unlink("/tmp/pythonic-test.txt")
+assert(os.system("/usr/bin/touch /tmp/pythonic-test.txt") == 0)
+assert(os.path.exists("/tmp/pythonic-test.txt"))
+os.unlink("/tmp/pythonic-test.txt")
+
 // pow
 assert(pow(2, 2) == 4)
 assert(pow(2.0, 2.0) == 4.0)
