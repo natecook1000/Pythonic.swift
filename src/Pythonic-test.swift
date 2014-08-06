@@ -757,6 +757,26 @@ if performPythonIncompatibleTests {
     assert(len(mapObj) == 0)
     assert(!mapObj["foobar"])
 
+    // os.popen3
+    var (stdin, stdout, stderr) = os.popen3("/bin/echo foo")
+    var foundOutput = false
+    for line in stdout {
+        if line == "foo" {
+            foundOutput = true
+        }
+    }
+    assert(foundOutput)
+
+    // os.popen2
+    foundOutput = false
+    (stdin, stdout) = os.popen2("/bin/echo foo")
+    for line in stdout {
+        if line == "foo" {
+            foundOutput = true
+        }
+    }
+    assert(foundOutput)
+
     // random.choice
     var array = ["foo", "bar"]
     var randomChoice = random.choice(array)
