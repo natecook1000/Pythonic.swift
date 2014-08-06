@@ -177,7 +177,7 @@ public func open(path: String, _ mode: String = "") -> NSFileHandle {
             fh = NSFileHandle(forReadingAtPath: path)
         case "w":
             os.unlink(path)
-            NSFileManager().copyItemAtPath("/dev/null", toPath: path, error: nil)
+            shutil.copyFile("/dev/null", path)
             fh = NSFileHandle(forWritingAtPath: path)
         case "a":
             fh = NSFileHandle(forWritingAtPath: path)
