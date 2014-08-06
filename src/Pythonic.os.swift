@@ -206,11 +206,8 @@ public class os {
             }
             task.arguments = arguments
         }
-        let pipe = NSPipe()
-        task.standardOutput = pipe
         task.launch()
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        // TODO: Return exit code.
-        return 0
+        task.waitUntilExit()
+        return Int(task.terminationStatus)
     }
 }
