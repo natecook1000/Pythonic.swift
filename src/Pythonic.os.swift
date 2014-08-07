@@ -230,7 +230,7 @@ public class os {
         }
         let stdinPipe = NSPipe()
         task.standardInput = stdinPipe
-        let stdin = stdinPipe.fileHandleForReading
+        let stdin = stdinPipe.fileHandleForWriting
         let stdoutPipe = NSPipe()
         task.standardOutput = stdoutPipe
         let stdout = stdoutPipe.fileHandleForReading
