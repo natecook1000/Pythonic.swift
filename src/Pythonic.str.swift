@@ -328,6 +328,9 @@ extension String : LogicValue {
         return self.expandTabs()
     }
 
+    // TODO: This is way way too slow. Needs to be optimized a lot. Cannot use
+    //       Foundation String functions here, since string length according to
+    //       Foundation can differ from string length according to Swift.
     public func find(sub: String, _ start: Int? = nil, _ end: Int? = nil) -> Int {
         var s = self
         if len(s) - len(sub) + 1 < 0 {
@@ -353,7 +356,10 @@ extension String : LogicValue {
     // Python: if "foo" in "foobar": …
     // Pythonic.swift: if "foo".in(foobar) { … }
     public func `in`(s: String) -> Bool {
-        return s.find(self) != -1
+        if !self {
+            return true
+        }
+        return (s as NSString).rangeOfString(self).length != 0
     }
 }
 
