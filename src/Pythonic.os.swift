@@ -108,9 +108,9 @@
 //   pathconf_names
 //   pathsep
 //   pipe
-//   popen: TODO (frequently used).
-//   popen2
-//   popen3
+//   popen
+//   popen2: Added.
+//   popen3: Added.
 //   popen4
 //   putenv
 //   read
@@ -149,7 +149,7 @@
 //   sys
 //   sysconf
 //   sysconf_names
-//   system: TODO (frequently used).
+//   system: Added.
 //   tcgetpgrp
 //   tcsetpgrp
 //   tempnam
@@ -189,5 +189,55 @@ public class os {
 
     public class func unlink(path: String) {
         NSFileManager.defaultManager().removeItemAtPath(path, error: nil)
+    }
+
+    public class func system(command: String) -> Int {
+        var parts = command.split(" ")
+        if len(parts) == 0 {
+            return 0
+        }
+        let task = NSTask()
+        // TODO: Use .pop() when no longer have to work around compiler bug.
+        task.launchPath = parts[0]
+        if len(parts) >= 2 {
+            var arguments: [String] = []
+            for i in 1..<len(parts) {
+                arguments.append(parts[i])
+            }
+            task.arguments = arguments
+        }
+        task.launch()
+        task.waitUntilExit()
+        return Int(task.terminationStatus)
+    }
+
+    public class func popen2(command: String) -> (NSFileHandle, NSFileHandle) {
+        let (stdin, stdout, stderr) = os.popen3(command)
+        return (stdin, stdout)
+    }
+
+    public class func popen3(command: String) -> (NSFileHandle, NSFileHandle, NSFileHandle) {
+        var parts = command.split(" ")
+        assert(len(parts) > 0)
+        let task = NSTask()
+        task.launchPath = parts[0]
+        if len(parts) >= 2 {
+            var arguments: [String] = []
+            for i in 1..<len(parts) {
+                arguments.append(parts[i])
+            }
+            task.arguments = arguments
+        }
+        let stdinPipe = NSPipe()
+        task.standardInput = stdinPipe
+        let stdin = stdinPipe.fileHandleForReading
+        let stdoutPipe = NSPipe()
+        task.standardOutput = stdoutPipe
+        let stdout = stdoutPipe.fileHandleForReading
+        let stderrPipe = NSPipe()
+        task.standardError = stderrPipe
+        let stderr = stderrPipe.fileHandleForReading
+        task.launch()
+        return (stdin, stdout, stderr)
     }
 }

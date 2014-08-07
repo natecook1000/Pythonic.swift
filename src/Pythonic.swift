@@ -169,18 +169,21 @@ public func oct(i: Int) -> String {
     return "0" + o
 }
 
-public func open(name: String, _ mode: String = "") -> NSFileHandle {
+public func open(path: String, _ mode: String = "") -> NSFileHandle {
     // TODO: Not all modes are implemented.
     var fh: NSFileHandle!
     switch mode {
         case "r":
-            fh = NSFileHandle(forReadingAtPath: name)
+            fh = NSFileHandle(forReadingAtPath: path)
         case "w":
-            fh = NSFileHandle(forWritingAtPath: name)
+            os.unlink(path)
+            shutil.copyFile("/dev/null", path)
+            fh = NSFileHandle(forWritingAtPath: path)
         case "a":
-            fh = NSFileHandle(forUpdatingAtPath: name)
+            fh = NSFileHandle(forWritingAtPath: path)
+            fh.seekToEndOfFile()
         default:
-            fh = NSFileHandle(forReadingAtPath: name)
+            fh = NSFileHandle(forReadingAtPath: path)
     }
     assert(fh, "open(…) -> NSFileHandle failed.")
     return fh

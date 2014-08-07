@@ -200,6 +200,12 @@ assert(!os.path.exists("/tmp.foo/"))
 assert(os.path.exists("/tmp/"))
 assert(os.path.exists("Pythonic-test.txt"))
 
+// os.system (+ os.unlink + os.path.exists)
+os.unlink("/tmp/pythonic-test.txt")
+assert(os.system("/usr/bin/touch /tmp/pythonic-test.txt") == 0)
+assert(os.path.exists("/tmp/pythonic-test.txt"))
+os.unlink("/tmp/pythonic-test.txt")
+
 // pow
 assert(pow(2, 2) == 4)
 assert(pow(2.0, 2.0) == 4.0)
@@ -526,8 +532,8 @@ assert(list(xrange(10)) == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 assert(list(xrange(1, 10)) == [1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 // BUG: Due to a strange compiler bug (?) the following cannot be imported. Must be in same source file.
-extension Array {
-    mutating func pop(index: Int?) -> Array.Element? {
+public extension Array {
+    public mutating func pop(index: Int?) -> Array.Element? {
         var i = index ?? self.count - 1
         if self.count == 0 || i < 0 || i >= self.count {
             return nil
@@ -537,13 +543,13 @@ extension Array {
         return ret
     }
 
-    mutating func pop() -> Array.Element? {
+    public mutating func pop() -> Array.Element? {
         return self.pop(nil)
     }
 }
 
 // BUG: Due to a strange compiler bug (?) the following cannot be imported. Must be in same source file.
-extension Dictionary {
+public extension Dictionary {
     public func get(key: Key) -> Value? {
         return self[key]
     }
@@ -752,6 +758,48 @@ if performPythonIncompatibleTests {
     mapObj.clear()
     assert(len(mapObj) == 0)
     assert(mapObj["foobar"] == nil)
+
+    // open(…) [modes: w, a, r (default)] + fh.write + fh.close + os.path.exists
+    let temporaryTestFile = "/tmp/pythonic-io.txt"
+    var f = open(temporaryTestFile, "w")
+    assert(f)
+    f.write("foo")
+    f.close()
+    f = open(temporaryTestFile, "a")
+    assert(f)
+    f.write("bar\n")
+    f.close()
+    f = open(temporaryTestFile)
+    var foundText = false
+    for line in f {
+        if line == "foobar" {
+            foundText = true
+        }
+    }
+    assert(foundText)
+    assert(os.path.exists(temporaryTestFile))
+    os.unlink(temporaryTestFile)
+    assert(!os.path.exists(temporaryTestFile))
+
+    // os.popen3
+    var (stdin, stdout, stderr) = os.popen3("/bin/echo foo")
+    var foundOutput = false
+    for line in stdout {
+        if line == "foo" {
+            foundOutput = true
+        }
+    }
+    assert(foundOutput)
+
+    // os.popen2
+    foundOutput = false
+    (stdin, stdout) = os.popen2("/bin/echo foo")
+    for line in stdout {
+        if line == "foo" {
+            foundOutput = true
+        }
+    }
+    assert(foundOutput)
 
     // random.choice
     var array = ["foo", "bar"]
