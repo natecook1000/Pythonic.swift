@@ -62,7 +62,7 @@ public extension NSFileHandle {
     }
 }
 
-extension NSFileHandle : Sequence {
+extension NSFileHandle : SequenceType {
     public func availableText () -> String? {
         let data: NSData = self.availableData
         if data.length == 0 {
@@ -79,7 +79,7 @@ extension NSFileHandle : Sequence {
 
 // The Swift compiler (Beta 4) crashes when this is contained in the extension,
 // but this should definitely be moved to the "generate" function when that is fixed.
-public class _FileHandle_Generator : Generator {
+public class _FileHandle_Generator : GeneratorType {
     private let filehandle : NSFileHandle
     private var cache = ""
 

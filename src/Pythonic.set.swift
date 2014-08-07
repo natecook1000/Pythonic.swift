@@ -3,7 +3,7 @@
 //
 //  "A set object is an unordered collection of distinct hashable
 //   objects. Common uses include membership testing, removing
-//   duplicates from a sequence, and computing mathematical
+//   duplicates from a Sequence, and computing mathematical
 //   operations such as intersection, union, difference, and symmetric
 //   difference."
 //
@@ -22,8 +22,8 @@
 //   assert(Set([1, 1, 1, 2, 2, 3, 3, 4]) == Set([1, 2, 3, 4]))
 
 public class Set<T: Hashable> : ArrayLiteralConvertible, Swift.Collection,
-    Comparable, Equatable, ExtensibleCollection, Hashable, LogicValue,
-    Printable, Sequence {
+    Comparable, Equatable, ExtensibleCollectionType, Hashable, BooleanType,
+    Printable, SequenceType {
     // final to speed up things:
     // "Is your dictionary an property (i.e. ivar) of a class?  If so,
     //  this is probably a known problem where an extra copy of the
@@ -36,11 +36,11 @@ public class Set<T: Hashable> : ArrayLiteralConvertible, Swift.Collection,
     // Speed-up: 239x
     private final var internalDict = [T : Void]()
 
-    public init() {
+    public required init() {
     }
 
-    public init<R : Sequence where R.GeneratorType.Element == T>(_ initialSequence: R) {
-        self.extend(initialSequence)
+    public init<R : SequenceType where R.Generator.Element == T>(_ initialSequenceType: R) {
+        self.extend(initialSequenceType)
     }
 
     public func contains(element: T) -> Bool {
@@ -114,8 +114,8 @@ public class Set<T: Hashable> : ArrayLiteralConvertible, Swift.Collection,
     }
 
     // Implement ExtensibleCollection
-    public func extend<R : Sequence where R.GeneratorType.Element == T>(sequence: R) {
-        let elements = [T](sequence)
+    public func extend<R : SequenceType where R.Generator.Element == T>(SequenceType: R) {
+        let elements = [T](SequenceType)
         for element in elements {
             self.add(element)
         }
@@ -131,7 +131,7 @@ public class Set<T: Hashable> : ArrayLiteralConvertible, Swift.Collection,
     }
 
     // Implement LogicValue (allows for "if set { … }")
-    public func getLogicValue() -> Bool {
+    public var boolValue: Bool {
         return countElements(self) != 0
     }
 
@@ -148,7 +148,7 @@ public class Set<T: Hashable> : ArrayLiteralConvertible, Swift.Collection,
         return s
     }
 
-    // Implement Sequence (allows for "for x in set")
+    // Implement SequenceType (allows for "for x in set")
     public func generate() -> IndexingGenerator<[T]> {
         return Array(self.internalDict.keys).generate()
     }
@@ -195,15 +195,15 @@ public func |<T: Hashable>(lhs: Set<T>, rhs: Set<T>) -> Set<T> {
     return lhs + rhs
 }
 
-@assignment public func +=<T: Hashable>(inout lhs: Set<T>, rhs: Set<T>) {
+public func +=<T: Hashable>(inout lhs: Set<T>, rhs: Set<T>) {
     lhs.extend(rhs)
 }
 
-@assignment public func |=<T: Hashable>(inout lhs: Set<T>, rhs: Set<T>) {
+public func |=<T: Hashable>(inout lhs: Set<T>, rhs: Set<T>) {
     lhs.extend(rhs)
 }
 
-@assignment public func &=<T: Hashable>(inout lhs: Set<T>, rhs: Set<T>) {
+public func &=<T: Hashable>(inout lhs: Set<T>, rhs: Set<T>) {
     for entry in lhs {
         if rhs.contains(entry) {
             lhs.add(entry)
@@ -213,17 +213,17 @@ public func |<T: Hashable>(lhs: Set<T>, rhs: Set<T>) -> Set<T> {
     }
 }
 
-@assignment public func +=<T: Hashable>(inout lhs: Set<T>, rhs: T) {
+public func +=<T: Hashable>(inout lhs: Set<T>, rhs: T) {
     lhs.add(rhs)
 }
 
-@assignment public func -=<T: Hashable>(inout lhs: Set<T>, rhs: Set<T>) {
+public func -=<T: Hashable>(inout lhs: Set<T>, rhs: Set<T>) {
     for entry in rhs {
         lhs.remove(entry)
     }
 }
 
-@assignment public func -=<T: Hashable>(inout lhs: Set<T>, rhs: T) {
+public func -=<T: Hashable>(inout lhs: Set<T>, rhs: T) {
     lhs.remove(rhs)
 }
 

@@ -24,8 +24,8 @@ import Foundation
 public typealias list = Swift.Array
 
 // TODO: Add negative indexing.
-extension Array : LogicValue {
-    public func getLogicValue() -> Bool {
+extension Array : BooleanType {
+    public var boolValue: Bool {
         return len(self) != 0
     }
 
@@ -41,7 +41,7 @@ extension Array : LogicValue {
 
     public func count<T where T : Equatable>(element: T) -> Int {
         if element is Array.Element {
-            return Swift.countElements(Swift.filter(Swift.reinterpretCast(self) as [T], { $0 == element }))
+            return Swift.countElements(Swift.filter(Swift.unsafeBitCast(self, [T].self), { $0 == element }))
         }
         return 0
     }
@@ -54,7 +54,7 @@ extension Array : LogicValue {
 
     public func index<T where T : Equatable>(element: T) -> Int? {
         if element is Array.Element {
-            if let idx = Swift.find(Swift.reinterpretCast(self) as [T], element) {
+            if let idx = Swift.find(Swift.unsafeBitCast(self, [T].self), element) {
                 return idx
             }
         }

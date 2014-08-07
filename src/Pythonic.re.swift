@@ -48,7 +48,7 @@
 
 import Foundation
 
-public class RegularExpressionMatch: LogicValue {
+public class RegularExpressionMatch: BooleanType {
     private var matchedStrings: [String] = []
 
     public init(_ matchedStrings: [String]) {
@@ -58,7 +58,7 @@ public class RegularExpressionMatch: LogicValue {
     public func groups() -> [String] {
         var newArr: [String] = []
         for i in 1..<len(self.matchedStrings) {
-            newArr += self.matchedStrings[i]
+            newArr += [self.matchedStrings[i]]
         }
         return newArr
     }
@@ -67,7 +67,7 @@ public class RegularExpressionMatch: LogicValue {
         return self.matchedStrings[i]
     }
 
-    public func getLogicValue() -> Bool {
+    public var boolValue: Bool {
         return self.matchedStrings.count != 0
     }
 
@@ -93,8 +93,8 @@ public class re {
                 for match in matches {
                     for i in 0..<match.numberOfRanges {
                         var range = match.rangeAtIndex(i)
-                        var matchString = (string as NSString).substringWithRange(range)
-                        matchedStrings += matchString
+                        var matchString: String = (string as NSString).substringWithRange(range)
+                        matchedStrings += [matchString]
                     }
                 }
             }
@@ -117,12 +117,12 @@ public class re {
             if let matches = regex.matchesInString(string, options: nil, range: NSMakeRange(0, (string as NSString).length)) as? [NSTextCheckingResult] {
                 var lastLocation = 0
                 for match in matches {
-                    var matchedString = (string as NSString).substringWithRange(NSMakeRange(lastLocation, match.range.location - lastLocation))
-                    returnedMatches += matchedString
+                    var matchedString: String = (string as NSString).substringWithRange(NSMakeRange(lastLocation, match.range.location - lastLocation))
+                    returnedMatches += [matchedString]
                     lastLocation = match.range.location + match.range.length
                 }
-                var matchedString = (string as NSString).substringWithRange(NSMakeRange(lastLocation, (string as NSString).length - lastLocation))
-                returnedMatches += matchedString
+                var matchedString: String = (string as NSString).substringWithRange(NSMakeRange(lastLocation, (string as NSString).length - lastLocation))
+                returnedMatches += [matchedString]
             }
         }
         return returnedMatches
