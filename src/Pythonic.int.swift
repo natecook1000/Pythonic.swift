@@ -10,8 +10,8 @@ import Foundation
 
 public typealias int = Swift.Int
 
-extension Int : LogicValue {
-    public func getLogicValue() -> Bool {
+extension Int : BooleanType {
+    public var boolValue: Bool {
         return self != 0
     }
 }

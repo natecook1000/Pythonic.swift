@@ -209,7 +209,7 @@ public class math {
         return d / 180 * pi
     }
 
-    private class func integerToDouble<T: Integer>(n: T) -> Double {
+    private class func integerToDouble<T: IntegerType>(n: T) -> Double {
         switch n {
             case let x as Int8:
                 return Double(x)
@@ -236,7 +236,7 @@ public class math {
         }
     }
 
-    public class func factorial<T: Integer>(n: T) -> Double {
+    public class func factorial<T: IntegerType>(n: T) -> Double {
         assert(n >= 0, "factorial() not defined for negative values")
         if n < 2 {
             return 1
@@ -248,7 +248,7 @@ public class math {
         return r
     }
 
-    public class func factorial<T: Integer>(num: T) -> T {
+    public class func factorial<T: IntegerType>(num: T) -> T {
         assert(num >= 0, "factorial() not defined for negative values")
         if num < 2 {
             return 1

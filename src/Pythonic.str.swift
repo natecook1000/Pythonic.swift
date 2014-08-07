@@ -54,8 +54,8 @@ import Foundation
 
 public typealias str = Swift.String
 
-extension String : LogicValue {
-    public func getLogicValue() -> Bool {
+extension String : BooleanType {
+    public var boolValue: Bool {
         return len(self) != 0
     }
 
@@ -96,7 +96,7 @@ extension String : LogicValue {
         var strings: [String] = []
         for s in re.split(WHITESPACE_REGEXP, self) {
             if s {
-                strings += s
+                strings += [s]
             }
         }
         return strings
@@ -363,7 +363,7 @@ extension String : LogicValue {
     }
 }
 
-@infix public func *(lhs: Int, rhs: String) -> String {
+public func *(lhs: Int, rhs: String) -> String {
     if lhs < 0 {
         return ""
     }
@@ -374,6 +374,6 @@ extension String : LogicValue {
     return ret
 }
 
-@infix public func *(lhs: String, rhs: Int) -> String {
+public func *(lhs: String, rhs: Int) -> String {
     return rhs * lhs
 }

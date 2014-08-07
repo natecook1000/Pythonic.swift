@@ -13,8 +13,8 @@ import Foundation
 
 public typealias float = Swift.Double
 
-extension Double : LogicValue {
-    public func getLogicValue() -> Bool {
+extension Double : BooleanType {
+    public var boolValue: Bool {
         return self != 0
     }
 
@@ -27,8 +27,8 @@ extension Double : LogicValue {
     }
 }
 
-extension Float : LogicValue {
-    public func getLogicValue() -> Bool {
+extension Float : BooleanType {
+    public var boolValue: Bool {
         return self != 0
     }
 
