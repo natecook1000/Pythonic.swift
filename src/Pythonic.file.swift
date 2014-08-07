@@ -58,7 +58,6 @@ public extension NSFileHandle {
 
     public func write(s: String) {
         self.writeData(s.dataUsingEncoding(NSUTF8StringEncoding))
-        self.synchronizeFile()
     }
 }
 
