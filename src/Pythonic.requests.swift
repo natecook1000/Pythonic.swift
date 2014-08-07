@@ -23,7 +23,7 @@ private class HttpUtils {
         for (key, value) in dictionary {
             var encodedKey = (key as NSString).stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
             var encodedValue = (value as NSString).stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
-            parts += "\(encodedKey)=\(encodedValue)"
+            parts += ["\(encodedKey)=\(encodedValue)"]
         }
         return join("&", parts)
     }
@@ -60,7 +60,7 @@ public class HttpSession {
         // TODO: Proper error checking. Read HTTP status code.
         var text: String?
         var ok = false
-        if nsData {
+        if nsData != nil {
             text = NSString(data: nsData, encoding: NSUTF8StringEncoding) as String
             ok = true
         }

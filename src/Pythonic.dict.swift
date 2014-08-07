@@ -31,8 +31,8 @@ import Foundation
 
 public typealias dict = Swift.Dictionary
 
-extension Dictionary : LogicValue {
-    public func getLogicValue() -> Bool {
+extension Dictionary : BooleanType {
+    public var boolValue: Bool {
         return len(self) != 0
     }
     // NOTE: get(…) implemented directly in Pythonic-test.swift to work around compiler bug.

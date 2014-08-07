@@ -528,7 +528,7 @@ assert(list(xrange(1, 10)) == [1, 2, 3, 4, 5, 6, 7, 8, 9])
 // BUG: Due to a strange compiler bug (?) the following cannot be imported. Must be in same source file.
 extension Array {
     mutating func pop(index: Int?) -> Array.Element? {
-        var i = index ? index! : self.count - 1
+        var i = index ?? self.count - 1
         if self.count == 0 || i < 0 || i >= self.count {
             return nil
         }
@@ -544,22 +544,22 @@ extension Array {
 
 // BUG: Due to a strange compiler bug (?) the following cannot be imported. Must be in same source file.
 extension Dictionary {
-    public func get(key: KeyType) -> ValueType? {
+    public func get(key: Key) -> Value? {
         return self[key]
     }
 
-    public func hasKey(key: KeyType) -> Bool {
+    public func hasKey(key: Key) -> Bool {
         if let _ = self.get(key) {
             return true
         }
         return false
     }
 
-    public func has_key(key: KeyType) -> Bool {
+    public func has_key(key: Key) -> Bool {
         return hasKey(key)
     }
 
-    mutating public func pop(key: KeyType) -> ValueType? {
+    mutating public func pop(key: Key) -> Value? {
         if let val = self.get(key) {
             self.removeValueForKey(key)
             return val
@@ -567,7 +567,7 @@ extension Dictionary {
         return nil
     }
 
-    mutating public func popItem() -> (KeyType, ValueType)? {
+    mutating public func popItem() -> (Key, Value)? {
         if self.count == 0 {
             return nil
         }
@@ -576,27 +576,27 @@ extension Dictionary {
         return (key, value)
     }
 
-    mutating public func popitem() -> (KeyType, ValueType)? {
+    mutating public func popitem() -> (Key, Value)? {
         return popItem()
     }
 
-    public func items() -> [(KeyType, ValueType)] {
+    public func items() -> [(Key, Value)] {
         return zip(self.keys, self.values)
     }
 
-    public static func fromKeys(sequence: [KeyType], _ defaultValue: ValueType) -> [KeyType : ValueType]{
-        var dict = [KeyType : ValueType]()
+    public static func fromKeys(sequence: [Key], _ defaultValue: Value) -> [Key : Value]{
+        var dict = [Key : Value]()
         for key in sequence {
             dict[key] = defaultValue
         }
         return dict
     }
 
-    public static func fromkeys(sequence: [KeyType], _ defaultValue: ValueType) -> [KeyType : ValueType] {
+    public static func fromkeys(sequence: [Key], _ defaultValue: Value) -> [Key : Value] {
         return fromKeys(sequence, defaultValue)
     }
 
-    public func copy() -> [KeyType : ValueType] {
+    public func copy() -> [Key : Value] {
         return self
     }
 }
@@ -621,20 +621,20 @@ let performPythonIncompatibleTests = true
 if performPythonIncompatibleTests {
     // dict (semantics + copy())
     var dict1 = ["foo": 1]
-    assert(dict1["foo"])
-    assert(!dict1["bar"])
+    assert(dict1["foo"] != nil)
+    assert(dict1["bar"] == nil)
     var dict2 = dict1.copy()
     dict2["bar"] = 2
-    assert(dict1["foo"])
-    assert(!dict1["bar"])
-    assert(dict2["foo"])
-    assert(dict2["bar"])
+    assert(dict1["foo"] != nil)
+    assert(dict1["bar"] == nil)
+    assert(dict2["foo"] != nil)
+    assert(dict2["bar"] != nil)
     var dict3 = dict1
     dict3["bar"] = 3
-    assert(dict1["foo"])
-    assert(!dict1["bar"])
-    assert(dict3["foo"])
-    assert(dict3["bar"])
+    assert(dict1["foo"] != nil)
+    assert(dict1["bar"] == nil)
+    assert(dict3["foo"] != nil)
+    assert(dict3["bar"] != nil)
 
     // dict
     assert(!dict<str, str>())
@@ -647,6 +647,8 @@ if performPythonIncompatibleTests {
     // dict.items
     var h = ["foo": 1, "bar": 2, "zonk": 3]
     var arrayOfTuples = h.items()
+    arrayOfTuples.sort() { $0.1 < $1.1 }
+    
     assert(arrayOfTuples[0].0 == "foo" && arrayOfTuples[0].1 == 1)
     assert(arrayOfTuples[1].0 == "bar" && arrayOfTuples[1].1 == 2)
     assert(arrayOfTuples[2].0 == "zonk" && arrayOfTuples[2].1 == 3)
@@ -728,7 +730,7 @@ if performPythonIncompatibleTests {
     // map
     var mapObj = ["foo": "foobar"]
     assert(len(mapObj) == 1)
-    assert(mapObj["foo"])
+    assert(mapObj["foo"] != nil)
 
     // map.get
     assert(mapObj.get("foo") == "foobar")
@@ -749,7 +751,7 @@ if performPythonIncompatibleTests {
     // map.clear
     mapObj.clear()
     assert(len(mapObj) == 0)
-    assert(!mapObj["foobar"])
+    assert(mapObj["foobar"] == nil)
 
     // random.choice
     var array = ["foo", "bar"]
@@ -757,7 +759,7 @@ if performPythonIncompatibleTests {
     assert(randomChoice == "foo" || randomChoice == "bar")
 
     // re.search
-    assert(re.search("", "foobarzonk") == [String]())
+    assert(!re.search("", "foobarzonk"))
 
     // re.search.group
     assert(re.search("^foo", "foobarzonk")[0] == "foo")

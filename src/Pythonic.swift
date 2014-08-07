@@ -78,15 +78,15 @@
 
 @exported import Foundation
 
-public operator infix ** {
+infix operator ** {
     associativity right precedence 160
 }
 
-@infix public func **(lhs: Double, rhs: Double) -> Double {
+public func **(lhs: Double, rhs: Double) -> Double {
     return Darwin.pow(lhs, rhs)
 }
 
-public func all<R : Sequence where R.GeneratorType.Element : LogicValue>(iterable: R) -> Bool {
+public func all<R : SequenceType where R.Generator.Element : BooleanType>(iterable: R) -> Bool {
     for element in iterable {
         if !element {
             return false
@@ -95,7 +95,7 @@ public func all<R : Sequence where R.GeneratorType.Element : LogicValue>(iterabl
     return true
 }
 
-public func any<R : Sequence where R.GeneratorType.Element : LogicValue>(iterable: R) -> Bool {
+public func any<R : SequenceType where R.Generator.Element : BooleanType>(iterable: R) -> Bool {
     for element in iterable {
         if element {
             return true
@@ -135,7 +135,7 @@ public func hex(i: Int) -> String {
     return "0x" + o
 }
 
-public func len<C: _Collection>(x: C) -> Int {
+public func len<C: _CollectionType>(x: C) -> Int {
     return Swift.countElements(x) as Int
 }
 
@@ -146,7 +146,7 @@ public func max(range: [Int]) -> Int {
     return Swift.maxElement(range)
 }
 
-public func max<R : Sequence where R.GeneratorType.Element : Comparable>(range: R) -> R.GeneratorType.Element {
+public func max<R : SequenceType where R.Generator.Element : Comparable>(range: R) -> R.Generator.Element {
     return Swift.maxElement(range)
 }
 
@@ -157,7 +157,7 @@ public func min(range: [Int]) -> Int {
     return Swift.minElement(range)
 }
 
-public func min<R : Sequence where R.GeneratorType.Element : Comparable>(range: R) -> R.GeneratorType.Element {
+public func min<R : SequenceType where R.Generator.Element : Comparable>(range: R) -> R.Generator.Element {
     return Swift.minElement(range)
 }
 
@@ -270,7 +270,7 @@ public func sum(iterable: [Int], _ start: Int = 0) -> Int {
     return Swift.reduce(iterable, start, { $0 + $1 })
 }
 
-public func zip<S1 : Sequence, S2 : Sequence>(s1: S1, s2: S2) -> [(S1.GeneratorType.Element, S2.GeneratorType.Element)] {
+public func zip<S1 : SequenceType, S2 : SequenceType>(s1: S1, s2: S2) -> [(S1.Generator.Element, S2.Generator.Element)] {
     return Array(Swift.Zip2<S1, S2>(s1, s2))
 }
 
@@ -278,14 +278,14 @@ public typealias bool = Swift.Bool
 public typealias long = Swift.Int
 public typealias object = NSObject
 
-extension Character : LogicValue {
-    public func getLogicValue() -> Bool {
+extension Character : BooleanType {
+    public var boolValue: Bool {
         return true
     }
 }
 
-extension NSObject : LogicValue {
-    public func getLogicValue() -> Bool {
+extension NSObject : BooleanType {
+    public var boolValue: Bool {
         return true
     }
 }
@@ -437,30 +437,30 @@ public func == <T:Equatable> (tuple1:(T,T,T),tuple2:(T,T,T)) -> Bool
 // viewkeys()
 // viewvalues()
 
-@infix public func %<A0: CVarArg>(lhs: String, rhs: (A0)) -> String {
+public func %<A0: CVarArgType>(lhs: String, rhs: (A0)) -> String {
     return NSString(format: lhs.replace("%s", "%@"), rhs.0)
 }
 
-@infix public func %<A0: CVarArg, A1: CVarArg>(lhs: String, rhs: (A0, A1)) -> String {
+public func %<A0: CVarArgType, A1: CVarArgType>(lhs: String, rhs: (A0, A1)) -> String {
     return NSString(format: lhs.replace("%s", "%@"), rhs.0, rhs.1)
 }
 
-@infix public func %<A0: CVarArg, A1: CVarArg, A2: CVarArg>(lhs: String, rhs: (A0, A1, A2)) -> String {
+public func %<A0: CVarArgType, A1: CVarArgType, A2: CVarArgType>(lhs: String, rhs: (A0, A1, A2)) -> String {
     return NSString(format: lhs.replace("%s", "%@"), rhs.0, rhs.1, rhs.2)
 }
 
-@infix public func %<A0: CVarArg, A1: CVarArg, A2: CVarArg, A3: CVarArg>(lhs: String, rhs: (A0, A1, A2, A3)) -> String {
+public func %<A0: CVarArgType, A1: CVarArgType, A2: CVarArgType, A3: CVarArgType>(lhs: String, rhs: (A0, A1, A2, A3)) -> String {
     return NSString(format: lhs.replace("%s", "%@"), rhs.0, rhs.1, rhs.2, rhs.3)
 }
 
-@infix public func %<A0: CVarArg, A1: CVarArg, A2: CVarArg, A3: CVarArg, A4: CVarArg>(lhs: String, rhs: (A0, A1, A2, A3, A4)) -> String {
+public func %<A0: CVarArgType, A1: CVarArgType, A2: CVarArgType, A3: CVarArgType, A4: CVarArgType>(lhs: String, rhs: (A0, A1, A2, A3, A4)) -> String {
     return NSString(format: lhs.replace("%s", "%@"), rhs.0, rhs.1, rhs.2, rhs.3, rhs.4)
 }
 
-@infix public func %<A0: CVarArg, A1: CVarArg, A2: CVarArg, A3: CVarArg, A4: CVarArg, A5: CVarArg>(lhs: String, rhs: (A0, A1, A2, A3, A4, A5)) -> String {
+public func %<A0: CVarArgType, A1: CVarArgType, A2: CVarArgType, A3: CVarArgType, A4: CVarArgType, A5: CVarArgType>(lhs: String, rhs: (A0, A1, A2, A3, A4, A5)) -> String {
     return NSString(format: lhs.replace("%s", "%@"), rhs.0, rhs.1, rhs.2, rhs.3, rhs.4, rhs.5)
 }
 
-@infix public func %<A0: CVarArg, A1: CVarArg, A2: CVarArg, A3: CVarArg, A4: CVarArg, A5: CVarArg, A6: CVarArg>(lhs: String, rhs: (A0, A1, A2, A3, A4, A5, A6)) -> String {
+public func %<A0: CVarArgType, A1: CVarArgType, A2: CVarArgType, A3: CVarArgType, A4: CVarArgType, A5: CVarArgType, A6: CVarArgType>(lhs: String, rhs: (A0, A1, A2, A3, A4, A5, A6)) -> String {
     return NSString(format: lhs.replace("%s", "%@"), rhs.0, rhs.1, rhs.2, rhs.3, rhs.4, rhs.5, rhs.6)
 }
