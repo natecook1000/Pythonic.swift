@@ -385,6 +385,13 @@ assert("foobar".find("foobar") == 0)
 assert("foobar".find("foobars") == -1)
 assert("foobar".find("zbar") == -1)
 
+// str.in (translated to "str1 in str" when running as Python code)
+assert(!"foo".`in`("zonk"))
+assert(!"foobar".`in`(""))
+assert("".`in`("foobar"))
+assert("foo".`in`("foobar"))
+assert("ob".`in`("foobar"))
+
 // str.index
 assert("foobar".index("foobar") == 0)
 assert("foobar".index("") == 0)
@@ -878,11 +885,6 @@ if performPythonIncompatibleTests {
 
     // str.endsWith
     assert("foobar".endsWith("bar"))
-
-    // str.in
-    assert("foo".`in`("foobar"))
-    assert(!"foo".`in`("zonk"))
-    assert("ob".`in`("foobar"))
 
     // str.index
     assert("foobar".index("foobars") == -1)
