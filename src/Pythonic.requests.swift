@@ -19,7 +19,7 @@ private enum HttpMethod {
 
 private class HttpUtils {
     private class func encodeDictionaryAsPercentEscapedString(dictionary: Dictionary<String, String>) -> String {
-        var parts: [String] = []
+        var parts = [String]()
         for (key, value) in dictionary {
             var encodedKey = (key as NSString).stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
             var encodedValue = (value as NSString).stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)

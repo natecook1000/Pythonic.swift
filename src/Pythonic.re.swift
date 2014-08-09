@@ -49,14 +49,14 @@
 import Foundation
 
 public class RegularExpressionMatch: BooleanType {
-    private var matchedStrings: [String] = []
+    private var matchedStrings = [String]()
 
     public init(_ matchedStrings: [String]) {
         self.matchedStrings.extend(matchedStrings)
     }
 
     public func groups() -> [String] {
-        var newArr: [String] = []
+        var newArr = [String]()
         for i in 1..<len(self.matchedStrings) {
             newArr += [self.matchedStrings[i]]
         }
@@ -82,7 +82,7 @@ public class RegularExpressionMatch: BooleanType {
 
 public class re {
     public class func search(pattern: String, _ string: String) -> RegularExpressionMatch {
-        var matchedStrings: [String] = []
+        var matchedStrings = [String]()
         if pattern == "" {
             return RegularExpressionMatch(matchedStrings)
         }
@@ -110,7 +110,7 @@ public class re {
         if pattern == "" {
             return [string]
         }
-        var returnedMatches: [String] = []
+        var returnedMatches = [String]()
         // NOTE: Must use NSString:s below to avoid off-by-one issues when countElements(swiftString) != nsString.length.
         //       Example case: countElements("\r\n") [1] != ("\r\n" as NSString).length [2]
         if let regex = NSRegularExpression.regularExpressionWithPattern(pattern, options: nil, error: nil) {

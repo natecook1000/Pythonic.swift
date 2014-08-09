@@ -93,7 +93,7 @@ extension String : BooleanType {
     }
 
     public func split() -> [String] {
-        var strings: [String] = []
+        var strings = [String]()
         for s in re.split(WHITESPACE_REGEXP, self) {
             if s {
                 strings += [s]

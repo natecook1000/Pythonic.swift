@@ -200,7 +200,7 @@ public class os {
         // TODO: Use .pop() when no longer have to work around compiler bug.
         task.launchPath = parts[0]
         if len(parts) >= 2 {
-            var arguments: [String] = []
+            var arguments = [String]()
             for i in 1..<len(parts) {
                 arguments.append(parts[i])
             }
@@ -222,7 +222,7 @@ public class os {
         let task = NSTask()
         task.launchPath = parts[0]
         if len(parts) >= 2 {
-            var arguments: [String] = []
+            var arguments = [String]()
             for i in 1..<len(parts) {
                 arguments.append(parts[i])
             }
