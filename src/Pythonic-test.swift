@@ -1,4 +1,4 @@
-#!/usr/bin/env xcrun swift -i -I .
+#!/usr/bin/env xcrun swift -I .
 
 import Pythonic
 
@@ -900,6 +900,9 @@ if performPythonIncompatibleTests {
 
     // str.title
     assert("they're bill's friends from the UK".title() == "They're Bill's Friends From The Uk")
+
+    // str[range]
+    assert("foobar"[0..<3] == "foo")
 
     // time.sleep
     time.sleep(0.001)
