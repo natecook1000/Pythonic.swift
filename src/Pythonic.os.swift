@@ -198,13 +198,10 @@ public class os {
         }
         let task = NSTask()
         // TODO: Use .pop() when no longer have to work around compiler bug.
-        task.launchPath = parts[0]
-        if len(parts) >= 2 {
-            var arguments = [String]()
-            for i in 1..<len(parts) {
-                arguments.append(parts[i])
-            }
-            task.arguments = arguments
+        task.launchPath = parts.first
+        parts = Array(dropFirst(parts))
+        if parts {
+            task.arguments = parts
         }
         task.launch()
         task.waitUntilExit()
@@ -220,13 +217,10 @@ public class os {
         var parts = command.split(" ")
         assert(len(parts) > 0)
         let task = NSTask()
-        task.launchPath = parts[0]
-        if len(parts) >= 2 {
-            var arguments = [String]()
-            for i in 1..<len(parts) {
-                arguments.append(parts[i])
-            }
-            task.arguments = arguments
+        task.launchPath = parts.first
+        parts = Array(dropFirst(parts))
+        if parts {
+            task.arguments = parts
         }
         let stdinPipe = NSPipe()
         task.standardInput = stdinPipe

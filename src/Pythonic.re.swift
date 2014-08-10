@@ -56,11 +56,7 @@ public class RegularExpressionMatch: BooleanType {
     }
 
     public func groups() -> [String] {
-        var newArr = [String]()
-        for i in 1..<len(self.matchedStrings) {
-            newArr += [self.matchedStrings[i]]
-        }
-        return newArr
+        return Array(dropFirst(self.matchedStrings))
     }
 
     public func group(i: Int) -> String? {
