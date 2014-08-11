@@ -122,6 +122,17 @@ assert(["foo", "bar", "zonk"].index("zonk") == 2)
 assert([1, 2, 3].index(3) == 2)
 assert(list(["a", "b", "c"]).index("b") == 1)
 
+// literals
+assert(0b0 == 0)
+assert(0b111111111111111111111111111111111111111111111111111111111111111 == 9223372036854775807)
+assert(0o00 == 0)
+assert(0o10 == 8)
+assert(0o11 == 9)
+assert(0x00 == 0)
+assert(0xff == 255)
+assert(1.25e-2 == 0.0125)
+assert(1.25e2 == 125)
+
 // long
 assert(long(1.1) == 1)
 
