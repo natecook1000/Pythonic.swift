@@ -969,4 +969,4 @@ if performTestsRequiringNetworkConnectivity &&
     println(postTestWithDict.text)
 }
 
-sys.exit(0)
+sys.exit()
