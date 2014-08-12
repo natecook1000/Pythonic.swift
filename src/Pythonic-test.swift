@@ -111,6 +111,9 @@ assert([1, 2, 3])
 assert([1, 2])
 assert([1])
 
+// list(set)
+assert(list(set([1, 2, 3, 1, 2, 3, 4])) == [1, 2, 3, 4])
+
 // list.count
 assert([1, 2, 2, 3, 3, 3].count(1) == 1)
 assert([1, 2, 2, 3, 3, 3].count(2) == 2)
