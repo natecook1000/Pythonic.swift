@@ -53,9 +53,276 @@
 import Foundation
 
 public typealias datetime = NSDate
+public typealias timedelta = NSTimeInterval
+
+public func <(lhs: NSDate, rhs: NSDate) -> Bool {
+    return lhs.compare(rhs) == NSComparisonResult.OrderedAscending
+}
+
+public func ==(lhs: NSDate, rhs: NSDate) -> Bool {
+    return lhs.compare(rhs) == NSComparisonResult.OrderedSame
+}
+
+public func -(lhs: NSDate, rhs: NSDate) -> NSTimeInterval {
+    return lhs.timeIntervalSinceDate(rhs)
+}
+
+public func -(lhs: NSDate, rhs: NSTimeInterval) -> NSDate {
+    return lhs.dateByAddingTimeInterval(-1 * rhs)
+}
+
+public func +(lhs: NSDate, rhs: NSTimeInterval) -> NSDate {
+    return lhs.dateByAddingTimeInterval(rhs)
+}
+
+extension NSDate : Equatable, Comparable { }
+
+public extension NSTimeInterval {
+    public init(days: Int = 0, seconds: Int = 0, microseconds: Int = 0, milliseconds: Int = 0, minutes: Int = 0, hours: Int = 0, weeks: Int = 0) {
+        var seconds = (((weeks * 7 + days) * 24 + hours) * 60 + minutes) * 60 + seconds
+        self = Double(seconds) + Double(milliseconds) / 1_000 + Double(microseconds) / 1_000_000
+    }
+    
+    private static var oneDay = 86400.0
+    
+    public var days: Int {
+        if self > 0 {
+            return Int(self / NSTimeInterval.oneDay)
+        } else {
+            return Int(self / NSTimeInterval.oneDay) - 1
+            }
+    }
+    
+    public var seconds: Int {
+        if self > 0 {
+            return Int(self % NSTimeInterval.oneDay)
+        } else {
+            return Int((self - (Double(self.days) * NSTimeInterval.oneDay)) % NSTimeInterval.oneDay)
+            }
+    }
+    
+    public var microseconds: Int {
+        // subtract integer portion of self, multiply what's left by 1_000_000, convert to Int
+        return Int((self - floor(self)) * 1_000_000)
+    }
+    
+    public func total_seconds() -> Double {
+        return self
+    }
+}
 
 public extension NSDate {
+    public convenience init(_ year: Int, _ month: Int, _ day: Int, hour: Int = 0, minute: Int = 0, second: Int = 0, microsecond: Int = 0) {
+        
+        var components = NSDateComponents()
+        components.year = year
+        components.month = month
+        components.day = day
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        components.nanosecond = microsecond * 1000
+        let date = NSCalendar.currentCalendar().dateFromComponents(components)
+        
+        self.init(timeIntervalSinceReferenceDate: date.timeIntervalSinceReferenceDate)
+    }
+    
     public class func utcnow() -> NSDate {
         return NSDate()
     }
+    
+    public class func today() -> NSDate {
+        return NSDate()
+    }
+    
+    public var year: Int {
+        let components = NSCalendar.currentCalendar().components(.CalendarUnitYear, fromDate: self)
+            return components.year
+    }
+    
+    public var month: Int {
+        let components = NSCalendar.currentCalendar().components(.CalendarUnitMonth, fromDate: self)
+            return components.month
+    }
+    
+    public var day: Int {
+        let components = NSCalendar.currentCalendar().components(.CalendarUnitDay, fromDate: self)
+            return components.day
+    }
+    
+    public var hour: Int {
+        let components = NSCalendar.currentCalendar().components(.CalendarUnitHour, fromDate: self)
+            return components.hour
+    }
+    
+    public var minute: Int {
+        let components = NSCalendar.currentCalendar().components(.CalendarUnitMinute, fromDate: self)
+            return components.minute
+    }
+    
+    public var second: Int {
+        let components = NSCalendar.currentCalendar().components(.CalendarUnitSecond, fromDate: self)
+            return components.second
+    }
+    
+    public var microsecond: Int {
+        let components = NSCalendar.currentCalendar().components(.CalendarUnitNanosecond, fromDate: self)
+            return components.nanosecond / 1000
+    }
+    
+    public func replace(year: Int? = nil, month: Int? = nil, day: Int? = nil, hour: Int? = nil, minute: Int? = nil, second: Int? = nil, microsecond: Int? = nil) -> NSDate! {
+        var components = NSCalendar.currentCalendar().components(
+            NSCalendarUnit.CalendarUnitYear |
+                NSCalendarUnit.CalendarUnitMonth |
+                NSCalendarUnit.CalendarUnitDay |
+                NSCalendarUnit.CalendarUnitHour |
+                NSCalendarUnit.CalendarUnitMinute |
+                NSCalendarUnit.CalendarUnitSecond |
+                NSCalendarUnit.CalendarUnitNanosecond |
+                NSCalendarUnit.CalendarUnitEra |
+                NSCalendarUnit.CalendarUnitQuarter |
+                NSCalendarUnit.CalendarUnitTimeZone
+            , fromDate: self)
+        if let y = year { components.year = y }
+        if let m = month { components.month = m }
+        if let d = day { components.day = d }
+        if let h = hour { components.hour = h }
+        if let m = minute { components.minute = m }
+        if let s = second { components.second = s }
+        if let m = microsecond { components.nanosecond = m * 1000 }
+        return NSCalendar.currentCalendar().dateFromComponents(components)
+    }
+    
+    public func weekday() -> Int {
+        let components = NSCalendar.currentCalendar().components(.CalendarUnitWeekday, fromDate: self)
+        return (components.weekday + 5) % 7
+    }
+    
+    public func isoweekday() -> Int {
+        return self.weekday() + 1
+    }
 }
+
+public extension NSDate {
+    // conversion from Python's date format to Unicode Technical Standard #35, used by NSDateFormatter
+    // https://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
+    // http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_Patterns
+    private class func convertFormat(format: String) -> String? {
+        func symbolForToken(token: String) -> String {
+            switch token {
+            case "%a":    // Weekday as locale’s abbreviated name.
+                return "EEE"
+            case "%A":    // Weekday as locale’s full name.
+                return "EEEE"
+            case "%w":    // Weekday as a decimal number, where 0 is Sunday and 6 is Saturday.    0, 1, ..., 6
+                return "ccccc"
+            case "%d":    // Day of the month as a zero-padded decimal number.    01, 02, ..., 31
+                return "dd"
+            case "%b":    // Month as locale’s abbreviated name.
+                return "MMM"
+            case "%B":    // Month as locale’s full name.
+                return "MMMM"
+            case "%m":    // Month as a zero-padded decimal number.    01, 02, ..., 12
+                return "MM"
+            case "%y":    // Year without century as a zero-padded decimal number.    00, 01, ..., 99
+                return "yy"
+            case "%Y":    // Year with century as a decimal number.    1970, 1988, 2001, 2013
+                return "yyyy"
+            case "%H":    // Hour (24-hour clock) as a zero-padded decimal number.    00, 01, ..., 23
+                return "HH"
+            case "%I":    // Hour (12-hour clock) as a zero-padded decimal number.    01, 02, ..., 12
+                return "hh"
+            case "%p":    // Locale’s equivalent of either AM or PM.
+                return "a"
+            case "%M":    // Minute as a zero-padded decimal number.    00, 01, ..., 59
+                return "mm"
+            case "%S":    // Second as a zero-padded decimal number.    00, 01, ..., 59
+                return "ss"
+            case "%f":    // Microsecond as a decimal number, zero-padded on the left.    000000, 000001, ..., 999999
+                return "SSSSSS"
+            case "%z":    // UTC offset in the form +HHMM or -HHMM (empty string if the the object is naive).    (empty), +0000, -0400, +1030
+                return "Z"
+            case "%Z":    // Time zone name (empty string if the object is naive).    (empty), UTC, EST, CST
+                return "z"
+            case "%j":    // Day of the year as a zero-padded decimal number.    001, 002, ..., 366
+                return "DDD"
+            case "%U":    // Week number of the year (Sunday as the first day of the week) as a zero padded decimal number. All days in a new year preceding the first Sunday are considered to be in week 0.    00, 01, ..., 53    (6)
+                return "ww"
+            case "%W":    // Week number of the year (Monday as the first day of the week) as a decimal number. All days in a new year preceding the first Monday are considered to be in week 0.    00, 01, ..., 53    (6)
+                return "ww"   // one of these can't be right
+            case "%c":    // Locale’s appropriate date and time representation.
+                return ""     // unsupported
+            case "%x":    // Locale’s appropriate date representation.
+                return ""     // unsupported
+            case "%X":    // Locale’s appropriate time representation.
+                return ""     // unsupported
+            case "%%":    // A literal '%' character.
+                return "%"
+            default:
+                return ""
+            }
+        }
+        
+        var newFormat = ""
+        var inQuotedText = false
+        var i = format.startIndex
+        while i < format.endIndex {
+            if format[i] == "%" {
+                if i.successor() >= format.endIndex {
+                    return nil
+                }
+                i = i.successor()
+                let token:String = "%\(format[i])"
+                if inQuotedText {
+                    newFormat += "'"
+                    inQuotedText = false
+                }
+                newFormat += symbolForToken(token)
+                
+            } else {
+                if contains("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", format[i]) {
+                    if !inQuotedText {
+                        newFormat += "'"
+                        inQuotedText = true
+                    }
+                } else if format[i] == "'" {
+                    newFormat += "'"
+                }
+                
+                newFormat += format[i]
+            }
+            
+            i = i.successor()
+        }
+        
+        if inQuotedText {
+            newFormat += "'"
+        }
+        return newFormat
+    }
+    
+    public class func strptime(dateString: String, _ format: String) -> NSDate! {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = NSDate.convertFormat(format) ?? ""
+        // fix so weekdays can be Sunday = 0, not Sunday = 1
+        dateFormatter.veryShortStandaloneWeekdaySymbols = ["0", "1", "2", "3", "4", "5", "6"]
+        return dateFormatter.dateFromString(dateString)
+    }
+    
+    public func strftime(format: String) -> String! {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = NSDate.convertFormat(format)
+        // fix so weekdays can be Sunday = 0, not Sunday = 1
+        dateFormatter.veryShortStandaloneWeekdaySymbols = ["0", "1", "2", "3", "4", "5", "6"]
+        return dateFormatter.stringFromDate(self)
+    }
+    
+    public func isoformat(_ sep: String = "T") -> String! {
+        var format = "%Y-%m-%d\(sep)%H:%M:%S"
+        if self.microsecond != 0 {
+            format += ".%f"
+        }
+        return self.strftime(format)
+    }
+}
+

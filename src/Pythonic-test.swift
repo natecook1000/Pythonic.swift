@@ -516,6 +516,11 @@ assert(sys.platform == "darwin")
 // time.time
 assert(time.time() > 1405028001.224846)
 
+// datetime
+assert(datetime(2014, 7, 4) == datetime.strptime("07/04/14", "%m/%d/%y"))
+assert(datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M").strftime("%d/%m/%y %H:%M") == "21/11/06 16:30")
+assert(datetime.strptime("21/11/06 16:30", "%d/%m/%y %H:%M").strftime("%d/%m/%y %H:%M") == "21/11/06 16:30")
+
 // tuple – comparison of 2-part tuples
 assert((1, 1) == (1, 1))
 assert(!((1, 1) == (1, 214)))
@@ -901,6 +906,27 @@ if performPythonIncompatibleTests {
 
     // time.sleep
     time.sleep(0.001)
+    
+    // datetime
+    let day = NSDate.strptime("11/08/14 21:13", "%d/%m/%y %H:%M")
+    assert(day.strftime("%a %A %w %d %b %B %m %y %Y") == "Mon Monday 1 11 Aug August 08 14 2014")
+    assert(day.strftime("%H %I %p %M %S %f %j %%") == "21 09 PM 13 00 000000 223 %")
+    assert(day.strftime("It's day number %d; the month is %B.") == "It's day number 11; the month is August.")
+    assert(day.isoformat(" ") == "2014-08-11 21:13:00")
+    
+    // timedelta
+    let year = timedelta(days: 365)
+    let anotherYear = timedelta(weeks: 40, days: 84, hours: 23, minutes: 50, seconds: 600)
+    assert(year.total_seconds() == 31536000.0)
+    assert(year == anotherYear)
+
+    // datetime & timedelta
+    let oneDayDelta = timedelta(days: 1)
+    let nextDay = day + oneDayDelta
+    let previousDay = day - oneDayDelta
+    assert(nextDay - previousDay == oneDayDelta * 2)
+    let otherDay = day.replace(day: 15, hour: 22)
+    assert(otherDay - nextDay == timedelta(days: 3, seconds: 60 * 60))
 
     // zip
     var zipped = zip([3, 4], [9, 16])
