@@ -93,7 +93,7 @@ extension String : BooleanType {
     }
 
     public func split() -> [String] {
-        var strings: [String] = []
+        var strings = [String]()
         for s in re.split(WHITESPACE_REGEXP, self) {
             if s {
                 strings += [s]
@@ -276,10 +276,6 @@ extension String : BooleanType {
         return self.substringWithRange(Range(start: start, end: end))
     }
 
-    public subscript (range: NSRange) -> String {
-        return self[range.location..<(range.location + range.length)]
-    }
-
     /// Split the string at the first occurrence of sep, and return a 3-tuple containing the part before the separator, the separator itself, and the part after the separator. If the separator is not found, return a 3-tuple containing the string itself, followed by two empty strings.
     public func partition(separator: String) -> (String, String, String) {
         if let separatorRange = self.rangeOfString(separator) {
@@ -328,6 +324,9 @@ extension String : BooleanType {
         return self.expandTabs()
     }
 
+    // TODO: This is way way too slow. Needs to be optimized a lot. Cannot use
+    //       Foundation String functions here, since string length according to
+    //       Foundation can differ from string length according to Swift.
     public func find(sub: String, _ start: Int? = nil, _ end: Int? = nil) -> Int {
         var s = self
         if len(s) - len(sub) + 1 < 0 {
@@ -353,7 +352,10 @@ extension String : BooleanType {
     // Python: if "foo" in "foobar": …
     // Pythonic.swift: if "foo".in(foobar) { … }
     public func `in`(s: String) -> Bool {
-        return s.find(self) != -1
+        if !self {
+            return true
+        }
+        return (s as NSString).rangeOfString(self).length != 0
     }
 }
 
