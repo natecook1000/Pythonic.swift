@@ -300,6 +300,8 @@ assert(re.split("[\r\n]+", "foo\naw\tef\roa\r\nwef") == ["foo", "aw\tef", "oa", 
 assert(re.split("[^a-z]", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["e", "f", "z", "", "", "ee", "", "ch", "", "", "h", "", "fhh", "h", "ui", "", "", "sh", ""])
 assert(re.split("[a-z]", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["", "8", "8", "888", "", "88", "", "838", "23", "", "", "3", "2", "", "388", "", "3"])
 assert(re.split("a-z", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["e8f8z888ee88ch838h23fhh3h2ui388sh3"])
+assert(re.split("[^a-zA-Z0-9]", "foo bar zonk") == ["foo", "bar", "zonk"])
+// assert(re.split("([^a-zA-Z0-9])", "foo bar zonk") == ["foo", " ", "bar", " ", "zonk"]) // Fails. Behaviour not compatible with Python.
 
 // re.sub
 assert(re.sub("^foo", "bar", "foofoo") == "barfoo")
