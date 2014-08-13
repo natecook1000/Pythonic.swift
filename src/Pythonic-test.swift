@@ -301,7 +301,15 @@ assert(re.split("[^a-z]", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["e", "f", "z
 assert(re.split("[a-z]", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["", "8", "8", "888", "", "88", "", "838", "23", "", "", "3", "2", "", "388", "", "3"])
 assert(re.split("a-z", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["e8f8z888ee88ch838h23fhh3h2ui388sh3"])
 assert(re.split("[^a-zA-Z0-9]", "foo bar zonk") == ["foo", "bar", "zonk"])
-// assert(re.split("([^a-zA-Z0-9])", "foo bar zonk") == ["foo", " ", "bar", " ", "zonk"]) // Fails. Behaviour not compatible with Python.
+assert(re.split("\\s(?=\\w+:)", "foo:bar zonk:foobar") == ["foo:bar", "zonk:foobar"])
+assert(re.split("[^a-z]", "foo1bar2zonk3foo11bar22zonk33foo111bar222zonk333") == ["foo", "bar", "zonk", "foo", "", "bar", "", "zonk", "", "foo", "", "", "bar", "", "", "zonk", "", "", ""])
+assert(re.split("[^a-z]+", "foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo") == ["foo", "foobar", "zonk", "foobarzonk", "zonkbarfoo"])
+assert(re.split("[^a-z]+", "foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo12345") == ["foo", "foobar", "zonk", "foobarzonk", "zonkbarfoo", ""])
+assert(re.split("[^a-z]+", "12345foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo12345") == ["", "foo", "foobar", "zonk", "foobarzonk", "zonkbarfoo", ""])
+assert(re.split("([^a-z]+)", "foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo") == ["foo", "12345", "foobar", "123", "zonk", "1234567", "foobarzonk", "123456789", "zonkbarfoo"])
+assert(re.split("([^a-z]+)", "foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo12345") == ["foo", "12345", "foobar", "123", "zonk", "1234567", "foobarzonk", "123456789", "zonkbarfoo", "12345", ""])
+assert(re.split("([^a-z]+)", "12345foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo12345") == ["", "12345", "foo", "12345", "foobar", "123", "zonk", "1234567", "foobarzonk", "123456789", "zonkbarfoo", "12345", ""])
+assert(re.split("([^a-zA-Z0-9])", "foo bar zonk") == ["foo", " ", "bar", " ", "zonk"])
 
 // re.sub
 assert(re.sub("^foo", "bar", "foofoo") == "barfoo")
