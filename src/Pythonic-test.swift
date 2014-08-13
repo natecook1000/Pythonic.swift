@@ -940,7 +940,7 @@ if performPythonIncompatibleTests {
     // datetime
     let day = NSDate.strptime("11/08/14 21:13", "%d/%m/%y %H:%M")
     assert(day.strftime("%a %A %w %d %b %B %m %y %Y") == "Mon Monday 1 11 Aug August 08 14 2014")
-    assert(day.strftime("%H %I %p %M %S %f %j %%") == "21 09 PM 13 00 000000 223 %")
+    assert(day.strftime("%H %I %p %M %S %f %j %%") == "21 09 pm 13 00 000000 223 %" || day.strftime("%H %I %p %M %S %f %j %%") == "21 09 PM 13 00 000000 223 %")
     assert(day.strftime("It's day number %d; the month is %B.") == "It's day number 11; the month is August.")
     assert(day.isoformat(" ") == "2014-08-11 21:13:00")
     
