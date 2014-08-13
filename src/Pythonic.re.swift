@@ -125,8 +125,12 @@ public class re {
     }
 
     public class func sub(pattern: String, _ repl: String, _ string: String) -> String {
+        var replaceWithString = repl
+        for i in 0...9 {
+            replaceWithString = replaceWithString.replace("\\\(i)", "$\(i)")
+        }
         if let regex = NSRegularExpression.regularExpressionWithPattern(pattern, options: nil, error: nil) {
-            return regex.stringByReplacingMatchesInString(string, options: nil, range: NSMakeRange(0, (string as NSString).length), withTemplate: repl)
+            return regex.stringByReplacingMatchesInString(string, options: nil, range: NSMakeRange(0, (string as NSString).length), withTemplate: replaceWithString)
         }
         return string
     }

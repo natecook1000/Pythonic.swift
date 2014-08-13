@@ -304,6 +304,7 @@ assert(re.split("a-z", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["e8f8z888ee88ch
 // re.sub
 assert(re.sub("^foo", "bar", "foofoo") == "barfoo")
 assert(re.sub("^zfoo", "bar", "foofoo") == "foofoo")
+assert(re.sub("([^a-zA-Z0-9])foo([^a-zA-Z0-9])", "\\1bar\\2", "foobarfoobar foo bar foo bar") == "foobarfoobar bar bar bar bar")
 
 // round
 assert(round(1.1) == 1)
