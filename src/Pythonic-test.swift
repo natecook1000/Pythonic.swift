@@ -310,6 +310,9 @@ assert(re.split("([^a-z]+)", "foo12345foobar123zonk1234567foobarzonk123456789zon
 assert(re.split("([^a-z]+)", "foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo12345") == ["foo", "12345", "foobar", "123", "zonk", "1234567", "foobarzonk", "123456789", "zonkbarfoo", "12345", ""])
 assert(re.split("([^a-z]+)", "12345foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo12345") == ["", "12345", "foo", "12345", "foobar", "123", "zonk", "1234567", "foobarzonk", "123456789", "zonkbarfoo", "12345", ""])
 assert(re.split("([^a-zA-Z0-9])", "foo bar zonk") == ["foo", " ", "bar", " ", "zonk"])
+assert(re.split("(abc)", "abcfooabcfooabcfoo") == ["", "abc", "foo", "abc", "foo", "abc", "foo"])
+assert(re.split("abc", "abcfooabcfooabcfoo") == ["", "foo", "foo", "foo"])
+// assert(re.split("(a)b(c)", "abcfooabcfooabcfoo") == ["", "a", "c", "foo", "a", "c", "foo", "a", "c", "foo"]) // Failing edge case which is not Python compatible yet.
 
 // re.sub
 assert(re.sub("^foo", "bar", "foofoo") == "barfoo")
@@ -470,10 +473,10 @@ assert("FooBar".lower() == "foobar")
 assert(" \n\t foobar \n\t ".lstrip() == "foobar \n\t ")
 
 // str.partition
-assert("the first part\nthe second part".partition("\n") == ("the first part","\n","the second part"))
+assert("the first part\nthe second part".partition("\n") == ("the first part", "\n", "the second part"))
 assert("the first part".partition("\n") == ("the first part", "", ""))
-assert("the first part\n".partition("\n") == ("the first part","\n",""))
-assert("\nthe second part".partition("\n") == ("","\n","the second part"))
+assert("the first part\n".partition("\n") == ("the first part", "\n", ""))
+assert("\nthe second part".partition("\n") == ("", "\n", "the second part"))
 
 // str.replace
 assert("fzzbar".replace("z", "o") == "foobar")
@@ -980,13 +983,13 @@ if performPythonIncompatibleTests {
         filehandletest += line + "\n"
     }
     assert(filehandletest == "line 1\nline 2\n")
-    assert(["line 1","line 2"] == Array(fileHandleFromString("line 1\nline 2\n")))
+    assert(["line 1", "line 2"] == Array(fileHandleFromString("line 1\nline 2\n")))
 
     assert(["line 1"] == Array(fileHandleFromString("line 1\n")))
     assert(["line 1"] == Array(fileHandleFromString("line 1")))
-    assert(["line 1","", "line 3"] == Array(fileHandleFromString("line 1\n\nline 3")))
-    assert(["","line 2", "line 3"] == Array(fileHandleFromString("\nline 2\nline 3")))
-    assert(["","", "line 3"] == Array(fileHandleFromString("\n\nline 3")))
+    assert(["line 1", "", "line 3"] == Array(fileHandleFromString("line 1\n\nline 3")))
+    assert(["", "line 2", "line 3"] == Array(fileHandleFromString("\nline 2\nline 3")))
+    assert(["", "", "line 3"] == Array(fileHandleFromString("\n\nline 3")))
 
     // Others:
     assert("foobar"[0..<2] == "fo")
