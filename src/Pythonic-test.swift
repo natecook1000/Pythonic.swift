@@ -15,17 +15,17 @@ assert(abs(-0.1) == 0.1)
 assert(abs(-1) == 1)
 
 // all
-assert(!all(["", "bar", "zonk"]))
+assert(!all(["", "bar", "baz"]))
 assert(!all([false, false, false]))
 assert(!all([false, false, true]))
-assert(all(["foo", "bar", "zonk"]))
+assert(all(["foo", "bar", "baz"]))
 assert(all([0.0001, 0.0001]))
 assert(all([true, true, true]))
 
 // any
 assert(!any([0, 0]))
 assert(!any([false, false, false]))
-assert(any(["", "foo", "bar", "zonk"]))
+assert(any(["", "foo", "bar", "baz"]))
 assert(any([0.1, 0]))
 assert(any([false, false, true]))
 
@@ -121,7 +121,7 @@ assert([1, 2, 2, 3, 3, 3].count(3) == 3)
 assert([1, 2, 3].count(4) == 0)
 
 // list.index
-assert(["foo", "bar", "zonk"].index("zonk") == 2)
+assert(["foo", "bar", "baz"].index("baz") == 2)
 assert([1, 2, 3].index(3) == 2)
 assert(list(["a", "b", "c"]).index("b") == 1)
 
@@ -243,44 +243,44 @@ assert(range(1, 11) == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 assert(range(10) == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 // re.search
-assert(!re.search("^bar", "foobarzonk"))
-assert(!re.search("hello", "foobarzonk"))
+assert(!re.search("^bar", "foobarbaz"))
+assert(!re.search("hello", "foobarbaz"))
 assert(re.search("[\r\n]", "foo\rfoo").group(0) == "\r")
 assert(re.search("\r\n", "foo\r\nfoo").group(0) == "\r\n")
-assert(re.search("^foo", "foobarzonk"))
-assert(re.search("^foo", "foobarzonk").group(0) == "foo")
-assert(re.search("^foo.*zonk$", "foobarzonk"))
-assert(re.search("foo", "foobarzonk"))
-assert(re.search("o", "foobarzonk"))
+assert(re.search("^foo", "foobarbaz"))
+assert(re.search("^foo", "foobarbaz").group(0) == "foo")
+assert(re.search("^foo.*baz$", "foobarbaz"))
+assert(re.search("foo", "foobarbaz"))
+assert(re.search("o", "foobarbaz"))
 
 // re.match
-assert(!re.match("^(.*)(([fo]+|[bar]+)|([bar]+|[zonk+]))(.*)$", "foobarzonkfoobarzonk").groups()[2])
-assert(!re.match("^(.*)(([fo]+|[bar]+)|([bar]+|[zonk+]))(.*)$", "foobarzonkfoobarzonk").groups()[4])
-assert(!re.match("o", "foobarzonk"))
+assert(!re.match("^(.*)(([fo]+|[bar]+)|([bar]+|[baz+]))(.*)$", "foobarbazfoobarbaz").groups()[2])
+assert(!re.match("^(.*)(([fo]+|[bar]+)|([bar]+|[baz+]))(.*)$", "foobarbazfoobarbaz").groups()[4])
+assert(!re.match("o", "foobarbaz"))
 assert(!re.search("zoo", "barfoobar"))
-assert(len(re.match("^((foo|bar|zonk)|foobar)*$", "foobarzonkfoobarzonk").groups()) == 2)
+assert(len(re.match("^((foo|bar|baz)|foobar)*$", "foobarbazfoobarbaz").groups()) == 2)
 assert(len(re.search("foo", "barfoobar").groups()) == 0)
 assert(list(re.match("(.*) down (.*) on (.*)", "Bugger all down here on earth!").groups()) == ["Bugger all", "here", "earth!"])
-assert(list(re.match("(Hello (foo) (bar) (zonk))", "Hello foo bar zonk").groups()) == ["Hello foo bar zonk", "foo", "bar", "zonk"])
+assert(list(re.match("(Hello (foo) (bar) (baz))", "Hello foo bar baz").groups()) == ["Hello foo bar baz", "foo", "bar", "baz"])
 assert(list(re.match("Hello[ \t]*(.*)world", "Hello     Python world").groups())[0] == "Python ")
 assert(list(re.search("/(.*)/(.*)/(.*)", "/var/tmp/foo").groups()) == ["var", "tmp", "foo"])
-assert(re.match("(Hello (foo) (bar) (zonk))", "Hello foo bar zonk").group(0) == "Hello foo bar zonk")
-assert(re.match("(Hello (foo) (bar) (zonk))", "Hello foo bar zonk").group(1) == "Hello foo bar zonk")
-assert(re.match("(Hello (foo) (bar) (zonk))", "Hello foo bar zonk").group(2) == "foo")
-assert(re.match("(Hello (foo) (bar) (zonk))", "Hello foo bar zonk").group(3) == "bar")
-assert(re.match("(Hello (foo) (bar) (zonk))", "Hello foo bar zonk").group(4) == "zonk")
+assert(re.match("(Hello (foo) (bar) (baz))", "Hello foo bar baz").group(0) == "Hello foo bar baz")
+assert(re.match("(Hello (foo) (bar) (baz))", "Hello foo bar baz").group(1) == "Hello foo bar baz")
+assert(re.match("(Hello (foo) (bar) (baz))", "Hello foo bar baz").group(2) == "foo")
+assert(re.match("(Hello (foo) (bar) (baz))", "Hello foo bar baz").group(3) == "bar")
+assert(re.match("(Hello (foo) (bar) (baz))", "Hello foo bar baz").group(4) == "baz")
 assert(re.match("/(.*)/(.*)/(.*)", "/var/tmp/foo").groups()[0] == "var")
 assert(re.match("/(.*)/(.*)/(.*)", "/var/tmp/foo").groups()[1] == "tmp")
 assert(re.match("/(.*)/(.*)/(.*)", "/var/tmp/foo").groups()[2] == "foo")
 assert(re.match("Hello[ \t]*(.*)world", "Hello     Python world").group(0) == "Hello     Python world")
 assert(re.match("Hello[ \t]*(.*)world", "Hello     Python world").group(1) == "Python ")
-assert(re.match("^((foo|bar|zonk)|foobar)*$", "foobarzonkfoobarzonk").groups()[0] == "zonk")
-assert(re.match("^((foo|bar|zonk)|foobar)*$", "foobarzonkfoobarzonk").groups()[1] == "zonk")
-assert(re.match("^(.*)(([fo]+|[bar]+)|([bar]+|[zonk+]))(.*)$", "foobarzonkfoobarzonk").groups()[0] == "foobarzonkfoobarzon")
-assert(re.match("^(.*)(([fo]+|[bar]+)|([bar]+|[zonk+]))(.*)$", "foobarzonkfoobarzonk").groups()[1] == "k")
-assert(re.match("^(.*)(([fo]+|[bar]+)|([bar]+|[zonk+]))(.*)$", "foobarzonkfoobarzonk").groups()[3] == "k")
-assert(re.match("^foo", "foobarzonk"))
-assert(re.match("foo", "foobarzonk"))
+assert(re.match("^((foo|bar|baz)|foobar)*$", "foobarbazfoobarbaz").groups()[0] == "baz")
+assert(re.match("^((foo|bar|baz)|foobar)*$", "foobarbazfoobarbaz").groups()[1] == "baz")
+assert(re.match("^(.*)(([fo]+|[bar]+)|([bar]+|[baz+]))(.*)$", "foobarbazfoobarbaz").groups()[0] == "foobarbazfoobarba")
+assert(re.match("^(.*)(([fo]+|[bar]+)|([bar]+|[baz+]))(.*)$", "foobarbazfoobarbaz").groups()[1] == "z")
+assert(re.match("^(.*)(([fo]+|[bar]+)|([bar]+|[baz+]))(.*)$", "foobarbazfoobarbaz").groups()[3] == "z")
+assert(re.match("^foo", "foobarbaz"))
+assert(re.match("foo", "foobarbaz"))
 assert(re.search("foo", "barfoobar"))
 
 // re.split
@@ -289,27 +289,27 @@ assert(re.split("/", "/") == ["", ""])
 assert(re.split("/", "foo/") == ["foo", ""])
 assert(re.split("/", "foo/bar") == ["foo", "bar"])
 assert(re.split("/", "foo/bar/") == ["foo", "bar", ""])
-assert(re.split("/", "foo/bar/zonk") == ["foo", "bar", "zonk"])
-assert(re.split("/", "foo/bar/zonk/") == ["foo", "bar", "zonk", ""])
+assert(re.split("/", "foo/bar/baz") == ["foo", "bar", "baz"])
+assert(re.split("/", "foo/bar/baz/") == ["foo", "bar", "baz", ""])
 assert(re.split("[0-9]", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["e", "f", "z", "", "", "ee", "", "ch", "", "", "h", "", "fhh", "h", "ui", "", "", "sh", ""])
-assert(re.split("[0-9]", "foo/bar/zonk") == ["foo/bar/zonk"])
-assert(re.split("[0-9]", "foo/bar/zonk/") == ["foo/bar/zonk/"])
+assert(re.split("[0-9]", "foo/bar/baz") == ["foo/bar/baz"])
+assert(re.split("[0-9]", "foo/bar/baz/") == ["foo/bar/baz/"])
 assert(re.split("[XY]+", "aXYbXYc") == ["a", "b", "c"])
 assert(re.split("[\r\n]", "\r\n\t\t\r\n\r\t\n\r\r\n\n\t\t") == ["", "", "\t\t", "", "", "\t", "", "", "", "", "\t\t"])
 assert(re.split("[\r\n]+", "foo\naw\tef\roa\r\nwef") == ["foo", "aw\tef", "oa", "wef"])
 assert(re.split("[^a-z]", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["e", "f", "z", "", "", "ee", "", "ch", "", "", "h", "", "fhh", "h", "ui", "", "", "sh", ""])
 assert(re.split("[a-z]", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["", "8", "8", "888", "", "88", "", "838", "23", "", "", "3", "2", "", "388", "", "3"])
 assert(re.split("a-z", "e8f8z888ee88ch838h23fhh3h2ui388sh3") == ["e8f8z888ee88ch838h23fhh3h2ui388sh3"])
-assert(re.split("[^a-zA-Z0-9]", "foo bar zonk") == ["foo", "bar", "zonk"])
-assert(re.split("\\s(?=\\w+:)", "foo:bar zonk:foobar") == ["foo:bar", "zonk:foobar"])
-assert(re.split("[^a-z]", "foo1bar2zonk3foo11bar22zonk33foo111bar222zonk333") == ["foo", "bar", "zonk", "foo", "", "bar", "", "zonk", "", "foo", "", "", "bar", "", "", "zonk", "", "", ""])
-assert(re.split("[^a-z]+", "foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo") == ["foo", "foobar", "zonk", "foobarzonk", "zonkbarfoo"])
-assert(re.split("[^a-z]+", "foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo12345") == ["foo", "foobar", "zonk", "foobarzonk", "zonkbarfoo", ""])
-assert(re.split("[^a-z]+", "12345foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo12345") == ["", "foo", "foobar", "zonk", "foobarzonk", "zonkbarfoo", ""])
-assert(re.split("([^a-z]+)", "foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo") == ["foo", "12345", "foobar", "123", "zonk", "1234567", "foobarzonk", "123456789", "zonkbarfoo"])
-assert(re.split("([^a-z]+)", "foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo12345") == ["foo", "12345", "foobar", "123", "zonk", "1234567", "foobarzonk", "123456789", "zonkbarfoo", "12345", ""])
-assert(re.split("([^a-z]+)", "12345foo12345foobar123zonk1234567foobarzonk123456789zonkbarfoo12345") == ["", "12345", "foo", "12345", "foobar", "123", "zonk", "1234567", "foobarzonk", "123456789", "zonkbarfoo", "12345", ""])
-assert(re.split("([^a-zA-Z0-9])", "foo bar zonk") == ["foo", " ", "bar", " ", "zonk"])
+assert(re.split("[^a-zA-Z0-9]", "foo bar baz") == ["foo", "bar", "baz"])
+assert(re.split("\\s(?=\\w+:)", "foo:bar baz:foobar") == ["foo:bar", "baz:foobar"])
+assert(re.split("[^a-z]", "foo1bar2baz3foo11bar22baz33foo111bar222baz333") == ["foo", "bar", "baz", "foo", "", "bar", "", "baz", "", "foo", "", "", "bar", "", "", "baz", "", "", ""])
+assert(re.split("[^a-z]+", "foo12345foobar123baz1234567foobarbaz123456789bazbarfoo") == ["foo", "foobar", "baz", "foobarbaz", "bazbarfoo"])
+assert(re.split("[^a-z]+", "foo12345foobar123baz1234567foobarbaz123456789bazbarfoo12345") == ["foo", "foobar", "baz", "foobarbaz", "bazbarfoo", ""])
+assert(re.split("[^a-z]+", "12345foo12345foobar123baz1234567foobarbaz123456789bazbarfoo12345") == ["", "foo", "foobar", "baz", "foobarbaz", "bazbarfoo", ""])
+assert(re.split("([^a-z]+)", "foo12345foobar123baz1234567foobarbaz123456789bazbarfoo") == ["foo", "12345", "foobar", "123", "baz", "1234567", "foobarbaz", "123456789", "bazbarfoo"])
+assert(re.split("([^a-z]+)", "foo12345foobar123baz1234567foobarbaz123456789bazbarfoo12345") == ["foo", "12345", "foobar", "123", "baz", "1234567", "foobarbaz", "123456789", "bazbarfoo", "12345", ""])
+assert(re.split("([^a-z]+)", "12345foo12345foobar123baz1234567foobarbaz123456789bazbarfoo12345") == ["", "12345", "foo", "12345", "foobar", "123", "baz", "1234567", "foobarbaz", "123456789", "bazbarfoo", "12345", ""])
+assert(re.split("([^a-zA-Z0-9])", "foo bar baz") == ["foo", " ", "bar", " ", "baz"])
 assert(re.split("(abc)", "abcfooabcfooabcfoo") == ["", "abc", "foo", "abc", "foo", "abc", "foo"])
 assert(re.split("abc", "abcfooabcfooabcfoo") == ["", "foo", "foo", "foo"])
 // assert(re.split("(a)b(c)", "abcfooabcfooabcfoo") == ["", "a", "c", "foo", "a", "c", "foo", "a", "c", "foo"]) // Failing edge case which is not Python compatible yet.
@@ -373,7 +373,7 @@ assert("Hello %d!" % (1) == "Hello 1!")
 assert("Hello %s! Number %d" % ("world", 1) == "Hello world! Number 1")
 assert("Hello %s!" % ("world") == "Hello world!")
 assert("With commit %d, this string building syntax is now %s!" % (197, "supported") == "With commit 197, this string building syntax is now supported!")
-assert("foo %% bar %011d zonk %s" % (100, "foobar") == "foo % bar 00000000100 zonk foobar")
+assert("foo %% bar %011d baz %s" % (100, "foobar") == "foo % bar 00000000100 baz foobar")
 assert("foo %d" % (123) == "foo 123")
 
 // str.capitalize
@@ -414,7 +414,7 @@ assert("foobar".find("foobars") == -1)
 assert("foobar".find("zbar") == -1)
 
 // str.in (translated to "str1 in str" when running as Python code)
-assert(!"foo".`in`("zonk"))
+assert(!"foo".`in`("baz"))
 assert(!"foobar".`in`(""))
 assert("".`in`("foobar"))
 assert("foo".`in`("foobar"))
@@ -691,13 +691,13 @@ if performPythonIncompatibleTests {
     assert(dict.fromkeys(["a", "b", "c"], 1) == ["a": 1, "c": 1, "b": 1])
 
     // dict.items
-    var h = ["foo": 1, "bar": 2, "zonk": 3]
+    var h = ["foo": 1, "bar": 2, "baz": 3]
     var arrayOfTuples = h.items()
     arrayOfTuples.sort() { $0.1 < $1.1 }
     
     assert(arrayOfTuples[0].0 == "foo" && arrayOfTuples[0].1 == 1)
     assert(arrayOfTuples[1].0 == "bar" && arrayOfTuples[1].1 == 2)
-    assert(arrayOfTuples[2].0 == "zonk" && arrayOfTuples[2].1 == 3)
+    assert(arrayOfTuples[2].0 == "baz" && arrayOfTuples[2].1 == 3)
 
     // divmod
     assert(divmod(100, 9).0 == 11)
@@ -732,7 +732,7 @@ if performPythonIncompatibleTests {
     assert(!list<int>())
 
     // list.count + list.index + list.reverseInPlace
-    var arr: [String] = ["foo", "bar", "zonk", "foo"]
+    var arr: [String] = ["foo", "bar", "baz", "foo"]
     assert(arr.count("foo") == 2)
     arr.remove("foo")
     assert(arr.count("foo") == 1)
@@ -743,7 +743,7 @@ if performPythonIncompatibleTests {
     assert(arr.index("hello") == 0)
 
     // list.index
-    assert(["foo", "bar", "zonk"].index(1) == nil)
+    assert(["foo", "bar", "baz"].index(1) == nil)
     assert([1, 2, 3].index("foo") == nil)
     assert([1, 2, 3].index(4) == nil)
 
@@ -847,10 +847,10 @@ if performPythonIncompatibleTests {
     assert(randomChoice == "foo" || randomChoice == "bar")
 
     // re.search
-    assert(!re.search("", "foobarzonk"))
+    assert(!re.search("", "foobarbaz"))
 
     // re.search.group
-    assert(re.search("^foo", "foobarzonk")[0] == "foo")
+    assert(re.search("^foo", "foobarbaz")[0] == "foo")
 
     // set
     var emptyIntSet: Set<Int> = set()
