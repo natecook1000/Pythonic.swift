@@ -111,11 +111,30 @@ public class re {
         //       Example case: countElements("\r\n") [1] != ("\r\n" as NSString).length [2]
         if let regex = NSRegularExpression.regularExpressionWithPattern(pattern, options: nil, error: nil) {
             if let matches = regex.matchesInString(string, options: nil, range: NSMakeRange(0, (string as NSString).length)) as? [NSTextCheckingResult] {
+                var includeDelimiters = false
+                // Heuristic detection of capture group(s) to try matching behaviour of Python's re.split. Room for improvement.
+                if "(".`in`(pattern.replace("\\(", "").replace("(?", "")) {
+                    includeDelimiters = true
+                }
+                var previousRange: NSRange?
                 var lastLocation = 0
                 for match in matches {
+                    if includeDelimiters {
+                        if let p = previousRange {
+                            var previousString: String = (string as NSString).substringWithRange(NSMakeRange(p.location, p.length))
+                            returnedMatches += [previousString]
+                        }
+                    }
                     var matchedString: String = (string as NSString).substringWithRange(NSMakeRange(lastLocation, match.range.location - lastLocation))
                     returnedMatches += [matchedString]
                     lastLocation = match.range.location + match.range.length
+                    previousRange = match.range
+                }
+                if includeDelimiters {
+                    if let p = previousRange {
+                        var previousString: String = (string as NSString).substringWithRange(NSMakeRange(p.location, p.length))
+                        returnedMatches += [previousString]
+                    }
                 }
                 var matchedString: String = (string as NSString).substringWithRange(NSMakeRange(lastLocation, (string as NSString).length - lastLocation))
                 returnedMatches += [matchedString]
@@ -125,8 +144,12 @@ public class re {
     }
 
     public class func sub(pattern: String, _ repl: String, _ string: String) -> String {
+        var replaceWithString = repl
+        for i in 0...9 {
+            replaceWithString = replaceWithString.replace("\\\(i)", "$\(i)")
+        }
         if let regex = NSRegularExpression.regularExpressionWithPattern(pattern, options: nil, error: nil) {
-            return regex.stringByReplacingMatchesInString(string, options: nil, range: NSMakeRange(0, (string as NSString).length), withTemplate: repl)
+            return regex.stringByReplacingMatchesInString(string, options: nil, range: NSMakeRange(0, (string as NSString).length), withTemplate: replaceWithString)
         }
         return string
     }
