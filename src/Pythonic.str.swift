@@ -1,4 +1,5 @@
 // Python docs: https://docs.python.org/2/library/string.html
+// also: https://docs.python.org/2/library/stdtypes.html#string-methods
 //
 // Most frequently used:
 //   19 str.replace
@@ -261,18 +262,51 @@ extension String : BooleanType {
         return self.uppercaseString
     }
 
-    public subscript (index: Int) -> String {
-        var arr = Array(self)
-        var idx = index
-        if idx < 0 {
-            idx = arr.count + index
+    private func _sliceIndexes(arg1: Int?, _ arg2: Int?) -> (Int, Int) {
+        let len = countElements(self)
+        var (start, end) = (0, len)
+        if let s = arg1 {
+            if s < 0 { start = max(len + s, 0) }
+            else { start = min(s, len) }
         }
-        return String(arr[idx])
+        if let e = arg2 {
+            if e < 0 { end = max(len + e, 0) }
+            else { end = min(e, len) }
+        }
+        if start > end { return (0, 0) }
+        return (start, end)
+    }
+    
+    /// Get a substring using Pythonic string indexing.
+    ///
+    /// Usage:
+    ///
+    /// * Python: str[2:4] -> Swift: str[2,4]
+    /// * Python: str[2:]  -> Swift: str[2,nil]
+    /// * Python: str[:2]  -> Swift: str[nil,2]
+    public subscript (arg1: Int?, arg2: Int?) -> String {
+        let (start, end) = _sliceIndexes(arg1, arg2)
+        return self[start..<end]
+    }
+    
+    /// Get a single-character string by Int index.
+    public subscript (var index: Int) -> String {
+        if index < 0 {
+            index += countElements(self)
+        }
+        return self[index...index]
     }
 
+    /// Get a substring using an integer range.
+    ///
+    /// Usage:
+    ///
+    /// * str[2..<4]
+    /// * str[2...4]
     public subscript (range: Range<Int>) -> String {
+        println(range)
         let start = Swift.advance(self.startIndex, range.startIndex)
-        let end = Swift.advance(self.startIndex, range.endIndex)
+        let end = Swift.advance(start, range.endIndex - range.startIndex)
         return self.substringWithRange(Range(start: start, end: end))
     }
 
