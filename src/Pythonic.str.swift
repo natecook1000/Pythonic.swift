@@ -304,7 +304,6 @@ extension String : BooleanType {
     /// * str[2..<4]
     /// * str[2...4]
     public subscript (range: Range<Int>) -> String {
-        println(range)
         let start = Swift.advance(self.startIndex, range.startIndex)
         let end = Swift.advance(start, range.endIndex - range.startIndex)
         return self.substringWithRange(Range(start: start, end: end))
