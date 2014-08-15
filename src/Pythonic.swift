@@ -238,7 +238,7 @@ public func rawInput(prompt: String) -> String {
     }
     let stdin = NSFileHandle.fileHandleWithStandardInput()
     if let data = stdin.availableData {
-        let inputString = NSString(data: data, encoding: NSUTF8StringEncoding) as String
+        let inputString: String = NSString(data: data, encoding: NSUTF8StringEncoding)
         if len(inputString) == 0 {
             return ""
         }

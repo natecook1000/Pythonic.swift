@@ -41,7 +41,7 @@ public typealias file = NSFileHandle
 public extension NSFileHandle {
     public func read() -> String {
         let data: NSData = self.readDataToEndOfFile()
-        return NSString(data: data, encoding: NSUTF8StringEncoding) as String
+        return NSString(data: data, encoding: NSUTF8StringEncoding)
     }
 
     public func readLines() -> [String] {
@@ -67,7 +67,7 @@ extension NSFileHandle : SequenceType {
         if data.length == 0 {
             return nil
         } else {
-            return NSString(data: data, encoding: NSUTF8StringEncoding) as String
+            return NSString(data: data, encoding: NSUTF8StringEncoding)
         }
     }
 
