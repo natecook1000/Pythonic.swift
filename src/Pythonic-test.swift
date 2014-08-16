@@ -934,12 +934,12 @@ if performPythonIncompatibleTests {
     // str.title
     assert("they're bill's friends from the UK".title() == "They're Bill's Friends From The Uk")
 
-    // str[Int?,Int?]
-    assert("Python"[nil,2] == "Py")
-    assert("Python"[2,nil] == "thon")
-    assert("Python"[2,4] == "th")
-    assert("Python"[nil,-3] == "Pyt")
-    assert("Python"[-3,nil] == "hon")
+    // str[Int?, Int?]
+    assert("Python"[nil, 2] == "Py")
+    assert("Python"[2, nil] == "thon")
+    assert("Python"[2, 4] == "th")
+    assert("Python"[nil, -3] == "Pyt")
+    assert("Python"[-3, nil] == "hon")
 
     // str[range]
     assert("foobar"[0..<3] == "foo")

@@ -281,9 +281,9 @@ extension String : BooleanType {
     ///
     /// Usage:
     ///
-    /// * Python: str[2:4] -> Swift: str[2,4]
-    /// * Python: str[2:]  -> Swift: str[2,nil]
-    /// * Python: str[:2]  -> Swift: str[nil,2]
+    /// * Python: str[2:4] -> Swift: str[2, 4]
+    /// * Python: str[2:]  -> Swift: str[2, nil]
+    /// * Python: str[:2]  -> Swift: str[nil, 2]
     public subscript (arg1: Int?, arg2: Int?) -> String {
         let (start, end) = _sliceIndexes(arg1, arg2)
         return self[start..<end]
