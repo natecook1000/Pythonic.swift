@@ -41,8 +41,8 @@ public class HttpSession {
                 nsMutableUrlRequest.HTTPMethod = "GET"
             case .POST:
                 var stringToPost: String!
-                if let dictToPost = data {
-                    stringToPost = HttpUtils.encodeDictionaryAsPercentEscapedString(dictToPost)
+                if let data = data {
+                    stringToPost = HttpUtils.encodeDictionaryAsPercentEscapedString(data)
                 } else if dataAsString != nil {
                     stringToPost = dataAsString!
                 } else {

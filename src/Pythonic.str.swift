@@ -265,15 +265,23 @@ extension String : BooleanType {
     private func _sliceIndexes(arg1: Int?, _ arg2: Int?) -> (Int, Int) {
         let len = countElements(self)
         var (start, end) = (0, len)
-        if let s = arg1 {
-            if s < 0 { start = max(len + s, 0) }
-            else { start = min(s, len) }
+        if let arg1 = arg1 {
+            if arg1 < 0 {
+                start = max(len + arg1, 0)
+            } else {
+                start = min(arg1, len)
+            }
         }
-        if let e = arg2 {
-            if e < 0 { end = max(len + e, 0) }
-            else { end = min(e, len) }
+        if let arg2 = arg2 {
+            if arg2 < 0 {
+                end = max(len + arg2, 0)
+            } else {
+                end = min(arg2, len)
+            }
         }
-        if start > end { return (0, 0) }
+        if start > end {
+            return (0, 0)
+        }
         return (start, end)
     }
     

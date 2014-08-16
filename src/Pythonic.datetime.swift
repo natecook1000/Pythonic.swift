@@ -183,13 +183,27 @@ public extension NSDate {
                 NSCalendarUnit.CalendarUnitQuarter |
                 NSCalendarUnit.CalendarUnitTimeZone
             , fromDate: self)
-        if let y = year { components.year = y }
-        if let m = month { components.month = m }
-        if let d = day { components.day = d }
-        if let h = hour { components.hour = h }
-        if let m = minute { components.minute = m }
-        if let s = second { components.second = s }
-        if let m = microsecond { components.nanosecond = m * 1000 }
+        if let year = year {
+            components.year = year
+        }
+        if let month = month {
+            components.month = month
+        }
+        if let day = day {
+            components.day = day
+        }
+        if let hour = hour {
+            components.hour = hour
+        }
+        if let minute = minute {
+            components.minute = minute
+        }
+        if let second = second {
+            components.second = second
+        }
+        if let microsecond = microsecond {
+            components.nanosecond = microsecond * 1000
+        }
         return NSCalendar.currentCalendar().dateFromComponents(components)
     }
     
