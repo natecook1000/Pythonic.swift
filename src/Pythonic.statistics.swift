@@ -22,10 +22,15 @@ public class statistics {
         }
     }
 
-    // Not implemented yet:
-    /*
     public class func medianLow(data: [Double]) -> Double {
-        return -1
+        let sortedData = sorted(data)
+        let n = len(sortedData)
+        assert(n > 0, "no median for empty data")
+        if n % 2 == 1 {
+            return sortedData[n / 2]
+        } else {
+            return sortedData[n / 2 - 1]
+        }
     }
 
     public class func median_low(data: [Double]) -> Double {
@@ -33,13 +38,18 @@ public class statistics {
     }
 
     public class func medianHigh(data: [Double]) -> Double {
-        return -1
+        let sortedData = sorted(data)
+        let n = len(sortedData)
+        assert(n > 0, "no median for empty data")
+        return sortedData[n / 2]
     }
 
     public class func median_high(data: [Double]) -> Double {
         return medianHigh(data)
     }
 
+    // Not implemented yet:
+    /*
     public class func medianGrouped(data: [Double]) -> Double {
         return -1
     }

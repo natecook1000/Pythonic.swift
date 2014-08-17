@@ -924,6 +924,14 @@ if performPythonIncompatibleTests {
     assert(statistics.median([1, 3, 5]) == 3)
     assert(statistics.median([2, 3, 4, 5]) == 3.5)
 
+    // statistics.median_high
+    assert(statistics.median_high([1, 3, 5]) == 3)
+    assert(statistics.median_high([1, 3, 5, 7]) == 5)
+
+    // statistics.median_low
+    assert(statistics.median_low([1, 3, 5]) == 3)
+    assert(statistics.median_low([1, 3, 5, 7]) == 3)
+
     // str (handling of "\r\n" not compatible with Python)
     assert("\r\n\t"[0] == "\r\n")
     assert("\r\n\t"[1] == "\t")
