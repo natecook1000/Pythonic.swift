@@ -52,7 +52,7 @@ mkdir my-pythonic-app/
 cd my-pythonic-app/
 cp ../Pythonic.swiftdoc ../Pythonic.swiftmodule ../libPythonic.dylib .
 cat << EOF > my_pythonic_app.swift
-#!/usr/bin/env xcrun swift -I . -i
+#!/usr/bin/env xcrun swift -I .
 
 import Pythonic
 
