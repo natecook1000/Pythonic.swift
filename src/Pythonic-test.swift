@@ -914,6 +914,24 @@ if performPythonIncompatibleTests {
     assert(set([1, 2, 3]).contains(1))
     assert(!set([1, 2, 3]).contains(4))
 
+    // statistics.mean
+    assert(statistics.mean([-1.0, 2.5, 3.25, 5.75]) == 2.625)
+    assert(statistics.mean([0.5, 0.75, 0.625, 0.375]) == 0.5625)
+    assert(statistics.mean([1, 2, 3, 4, 4]) == 2.8)
+
+    // statistics.median
+    assert(statistics.median([1, 3, 5, 7]) == 4.0)
+    assert(statistics.median([1, 3, 5]) == 3)
+    assert(statistics.median([2, 3, 4, 5]) == 3.5)
+
+    // statistics.median_high
+    assert(statistics.median_high([1, 3, 5]) == 3)
+    assert(statistics.median_high([1, 3, 5, 7]) == 5)
+
+    // statistics.median_low
+    assert(statistics.median_low([1, 3, 5]) == 3)
+    assert(statistics.median_low([1, 3, 5, 7]) == 3)
+
     // str (handling of "\r\n" not compatible with Python)
     assert("\r\n\t"[0] == "\r\n")
     assert("\r\n\t"[1] == "\t")
@@ -934,12 +952,12 @@ if performPythonIncompatibleTests {
     // str.title
     assert("they're bill's friends from the UK".title() == "They're Bill's Friends From The Uk")
 
-    // str[Int?,Int?]
-    assert("Python"[nil,2] == "Py")
-    assert("Python"[2,nil] == "thon")
-    assert("Python"[2,4] == "th")
-    assert("Python"[nil,-3] == "Pyt")
-    assert("Python"[-3,nil] == "hon")
+    // str[Int?, Int?]
+    assert("Python"[nil, 2] == "Py")
+    assert("Python"[2, nil] == "thon")
+    assert("Python"[2, 4] == "th")
+    assert("Python"[nil, -3] == "Pyt")
+    assert("Python"[-3, nil] == "hon")
 
     // str[range]
     assert("foobar"[0..<3] == "foo")

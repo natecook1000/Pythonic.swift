@@ -24,7 +24,7 @@ import Foundation
 public class json {
     public class func dumps(obj: AnyObject) -> String {
         var jsonData = NSJSONSerialization.dataWithJSONObject(obj, options: .PrettyPrinted, error: nil)
-        return NSString(data: jsonData, encoding: NSUTF8StringEncoding) as String
+        return NSString(data: jsonData, encoding: NSUTF8StringEncoding)
     }
 
     public class func loads(json: String) -> AnyObject {

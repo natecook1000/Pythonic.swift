@@ -120,8 +120,8 @@ public class re {
                 var lastLocation = 0
                 for match in matches {
                     if includeDelimiters {
-                        if let p = previousRange {
-                            var previousString: String = (string as NSString).substringWithRange(NSMakeRange(p.location, p.length))
+                        if let previousRange = previousRange {
+                            var previousString: String = (string as NSString).substringWithRange(NSMakeRange(previousRange.location, previousRange.length))
                             returnedMatches += [previousString]
                         }
                     }
@@ -131,8 +131,8 @@ public class re {
                     previousRange = match.range
                 }
                 if includeDelimiters {
-                    if let p = previousRange {
-                        var previousString: String = (string as NSString).substringWithRange(NSMakeRange(p.location, p.length))
+                    if let previousRange = previousRange {
+                        var previousString: String = (string as NSString).substringWithRange(NSMakeRange(previousRange.location, previousRange.length))
                         returnedMatches += [previousString]
                     }
                 }
